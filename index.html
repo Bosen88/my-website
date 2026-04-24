@@ -520,6 +520,43 @@
       .contact-item-text .ph-line:nth-child(2) { width: min(150px, 55vw); }
     }
 
+    /* ── Ask CTA (under service cards) ── */
+    .ask-cta {
+      margin-top: 2.5rem;
+      text-align: center;
+      padding: 2rem;
+      border: 1px solid var(--divider);
+    }
+    .ask-cta p {
+      font-family: -apple-system, sans-serif;
+      font-size: 0.82rem;
+      color: var(--muted-lt);
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── LINE button ── */
+    .btn-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2.2rem;
+      font-family: -apple-system, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      background: var(--gold);
+      color: var(--bg);
+      transition: background 0.25s;
+    }
+    .btn-line:hover { background: var(--gold-lt); }
+
+    @media (max-width: 640px) {
+      .btn-line { width: 100%; justify-content: center; }
+    }
+
     /* ── Footer ── */
     footer {
       background: var(--bg);
@@ -557,11 +594,11 @@
 
   <!-- Nav -->
   <nav>
-    <span class="nav-logo">Maison</span>
+    <span class="nav-logo">Bosen</span>
     <ul class="nav-links">
       <li><a href="#about">關於我</a></li>
       <li><a href="#services">服務</a></li>
-      <li><a href="#contact">聯絡</a></li>
+      <li><a href="#contact">加入我們</a></li>
     </ul>
   </nav>
 
@@ -569,15 +606,15 @@
   <section id="hero">
     <div class="hero-text-group">
       <span class="gold-rule center"></span>
-      <p class="hero-eyebrow section-label"><span class="ph-line"></span></p>
-      <h1><span class="ph-line"></span></h1>
-      <div class="hero-sub">
-        <span class="ph-line"></span>
-        <span class="ph-line"></span>
+      <p class="hero-eyebrow section-label">副業 × 創業 × 斜槓</p>
+      <h1>找到屬於你的<br>第二條路</h1>
+      <div class="hero-sub" style="font-family:-apple-system,sans-serif;font-size:clamp(0.9rem,2vw,1.05rem);color:var(--muted-lt);line-height:1.7;">
+        <p>你問我找，有需要再買，不強迫推銷。</p>
+        <p>從上班族到斜槓，我們走過，現在帶你走。</p>
       </div>
       <div class="hero-cta">
-        <a href="#services" class="btn-primary">按鈕文字</a>
-        <a href="#about"    class="btn-ghost">了解更多</a>
+        <a href="https://line.me/R/ti/g/uE53tGJEFZ" target="_blank" rel="noopener" class="btn-primary">加入免費諮詢群</a>
+        <a href="#about" class="btn-ghost">了解更多</a>
       </div>
     </div>
     <div class="scroll-hint">
@@ -603,21 +640,18 @@
         <div class="about-copy">
           <span class="section-label">關於我</span>
           <span class="gold-rule"></span>
-          <h2>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-          </h2>
-          <div class="about-desc">
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
+          <h2>南科上班族，<br>一家四口的副業實驗</h2>
+          <div class="about-desc" style="font-family:-apple-system,sans-serif;font-size:0.95rem;color:var(--muted-lt);line-height:1.85;display:flex;flex-direction:column;gap:1rem;">
+            <p>我是南科的上班族，每天在科技廠上班。家裡有兩個小孩，一個 2 個月、一個 2 歲 4 個月，老婆在家全職帶孩子。</p>
+            <p>她在生第一胎之前，是一間咖啡廳的主理人——有自己的空間、自己的節奏、自己的事業。有了孩子之後，這一切暫時放下了。</p>
+            <p>我們開始認真思考：一份薪水養四口，怎麼讓家庭有更多選擇？從那時候起，我們開始研究副業、斜槓，找到了適合這個家的模式。</p>
+            <p>現在，我把這條路分享給跟我們一樣的人——想多一份收入、想重拾熱情、不知道從哪裡開始的你。</p>
           </div>
           <div class="about-tags">
-            <span class="tag">標籤一</span>
-            <span class="tag">標籤二</span>
-            <span class="tag">標籤三</span>
-            <span class="tag">標籤四</span>
+            <span class="tag">南科上班族</span>
+            <span class="tag">一對一諮詢</span>
+            <span class="tag">家庭優先</span>
+            <span class="tag">實戰分享</span>
           </div>
         </div>
       </div>
@@ -633,7 +667,7 @@
         <span class="section-label">服務項目</span>
         <span class="gold-rule center"></span>
         <h2>我能幫你做什麼</h2>
-        <span class="ph-line"></span>
+        <p style="font-family:-apple-system,sans-serif;font-size:0.88rem;color:var(--muted);margin-top:0.75rem;letter-spacing:0.03em;">不賣課程，不強迫推銷，只幫你找到適合自己的方向</p>
       </div>
       <div class="service-cards">
 
@@ -642,18 +676,13 @@
             <div class="ph-img">圖片 600 × 450</div>
           </div>
           <span class="card-number">01</span>
-          <div class="card-title-text"><span class="ph-line"></span></div>
-          <div class="card-desc-lines">
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
+          <div class="card-title-text">副業方向諮詢</div>
+          <div class="card-desc-lines" style="font-family:-apple-system,sans-serif;font-size:0.85rem;color:var(--muted-lt);line-height:1.7;">
+            一對一分析你的背景、技能與可用時間，找出最適合你的副業切入點。不套公式，只談你的情況。
           </div>
           <div class="card-price-row">
-            <span class="price-from"><span class="ph-line"></span></span>
-            <div class="price-amount">
-              <span class="ph-line"></span>
-              <span class="ph-line unit"></span>
-            </div>
+            <span class="price-from" style="font-family:-apple-system,sans-serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">入群即可</span>
+            <span style="font-family:-apple-system,sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold);">免費</span>
           </div>
         </div>
 
@@ -662,18 +691,13 @@
             <div class="ph-img">圖片 600 × 450</div>
           </div>
           <span class="card-number">02</span>
-          <div class="card-title-text"><span class="ph-line"></span></div>
-          <div class="card-desc-lines">
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
+          <div class="card-title-text">創業入門陪跑</div>
+          <div class="card-desc-lines" style="font-family:-apple-system,sans-serif;font-size:0.85rem;color:var(--muted-lt);line-height:1.7;">
+            從零規劃你的小生意，產品定位、目標客群、定價策略、行銷通路，一步一步帶你走，走到你能自己跑。
           </div>
           <div class="card-price-row">
-            <span class="price-from"><span class="ph-line"></span></span>
-            <div class="price-amount">
-              <span class="ph-line"></span>
-              <span class="ph-line unit"></span>
-            </div>
+            <span class="price-from" style="font-family:-apple-system,sans-serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">依需求</span>
+            <span style="font-family:-apple-system,sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold);">入群詢問</span>
           </div>
         </div>
 
@@ -682,21 +706,22 @@
             <div class="ph-img">圖片 600 × 450</div>
           </div>
           <span class="card-number">03</span>
-          <div class="card-title-text"><span class="ph-line"></span></div>
-          <div class="card-desc-lines">
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
+          <div class="card-title-text">斜槓媽媽計畫</div>
+          <div class="card-desc-lines" style="font-family:-apple-system,sans-serif;font-size:0.85rem;color:var(--muted-lt);line-height:1.7;">
+            專為全職媽媽設計，在育兒之餘找到可以在家經營的收入來源。我老婆從咖啡廳主理人到斜槓媽媽，親身示範可行。
           </div>
           <div class="card-price-row">
-            <span class="price-from"><span class="ph-line"></span></span>
-            <div class="price-amount">
-              <span class="ph-line"></span>
-              <span class="ph-line unit"></span>
-            </div>
+            <span class="price-from" style="font-family:-apple-system,sans-serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">依需求</span>
+            <span style="font-family:-apple-system,sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold);">入群詢問</span>
           </div>
         </div>
 
+      </div>
+
+      <!-- 建議③：先問我 CTA -->
+      <div class="ask-cta">
+        <p>不確定從哪裡開始？不用想清楚再來，帶著你的問題就好，我來幫你拆解。</p>
+        <a href="https://line.me/R/ti/g/uE53tGJEFZ" target="_blank" rel="noopener" class="btn-line">免費加群，先聊再說 →</a>
       </div>
     </div>
   </section>
@@ -711,37 +736,38 @@
           <div class="ph-img">圖片 800 × 800</div>
         </div>
         <div class="contact-copy">
-          <span class="section-label">聯絡方式</span>
+          <span class="section-label">加入我們</span>
           <span class="gold-rule"></span>
-          <h2>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-          </h2>
-          <div class="contact-desc">
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
-            <span class="ph-line"></span>
+          <h2>你問我找，<br>一起找出你的路</h2>
+          <div class="contact-desc" style="font-family:-apple-system,sans-serif;font-size:0.9rem;color:var(--muted-lt);line-height:1.8;">
+            不管是想多一份收入、想重拾創業夢，還是完全不知道從哪裡開始——加入群組，先聊聊，有緣分再一起走。
           </div>
           <div class="contact-items">
             <div class="contact-item">
-              <div class="contact-icon"></div>
+              <div class="contact-icon" style="display:flex;align-items:center;justify-content:center;color:var(--gold);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.02 2 11c0 2.86 1.38 5.41 3.54 7.11L4.5 22l4.13-1.37C9.68 21.18 10.82 21.5 12 21.5c5.52 0 10-4.02 10-9s-4.48-9-10-9z"/></svg>
+              </div>
               <div class="contact-item-text">
-                <span class="ph-line"></span>
-                <span class="ph-line"></span>
+                <span style="font-family:-apple-system,sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">LINE 諮詢群</span>
+                <a href="https://line.me/R/ti/g/uE53tGJEFZ" target="_blank" rel="noopener" style="font-family:-apple-system,sans-serif;font-size:0.92rem;color:var(--gold);text-decoration:none;letter-spacing:0.02em;">點此加入免費諮詢群 →</a>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-icon"></div>
+              <div class="contact-icon" style="display:flex;align-items:center;justify-content:center;color:var(--gold);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+              </div>
               <div class="contact-item-text">
-                <span class="ph-line"></span>
-                <span class="ph-line"></span>
+                <span style="font-family:-apple-system,sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Instagram</span>
+                <a href="https://instagram.com/bosenchiou" target="_blank" rel="noopener" style="font-family:-apple-system,sans-serif;font-size:0.92rem;color:var(--text);text-decoration:none;">@bosenchiou</a>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-icon"></div>
+              <div class="contact-icon" style="display:flex;align-items:center;justify-content:center;color:var(--gold);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.471 12.01v-.017c.029-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.018 5.113.818 6.837 2.288 1.688 1.441 2.651 3.453 2.87 5.978l-2.883.256c-.183-1.964-.865-3.478-2.026-4.499-1.176-1.033-2.88-1.56-5.064-1.574h-.01c-2.603.018-4.584.857-5.888 2.493C4.863 6.358 4.19 8.75 4.165 12.002v.01c.024 3.251.698 5.64 2.004 7.11 1.305 1.632 3.285 2.47 5.886 2.487h.01c2.368-.015 3.93-.64 4.878-1.906.578-.776.96-1.834 1.133-3.117-.784.129-1.577.163-2.374.09-2.122-.198-3.93-.892-5.22-2.01-1.371-1.19-2.1-2.803-2.1-4.673 0-1.91.762-3.528 2.14-4.7 1.288-1.094 3.049-1.747 5.12-1.887.24-.016.48-.024.72-.024 1.573 0 3.059.35 4.298 1.004a5.6 5.6 0 0 1 .546.337l.001-.027.001-.051c.003-.077.005-.154.005-.231 0-.95-.173-1.826-.517-2.607l2.625-1.097C22.726 4.23 23.03 5.6 23.03 7.066c0 .42-.03.836-.088 1.24a7.965 7.965 0 0 1 .523 2.907c0 4.202-1.705 7.196-4.928 8.653-1.326.597-2.867.898-4.52.898-.277 0-.556-.01-.832-.03Zm.595-11.11c-.17 0-.34.007-.508.017-1.283.082-2.363.468-3.034 1.042-.591.503-.89 1.158-.89 1.948 0 1.718 1.43 2.896 3.56 3.095.682.064 1.374.034 2.059-.086.2-1.208.188-2.44-.043-3.638a11.1 11.1 0 0 0-.442-1.574 5.08 5.08 0 0 0-.702-.804Z"/></svg>
+              </div>
               <div class="contact-item-text">
-                <span class="ph-line"></span>
-                <span class="ph-line"></span>
+                <span style="font-family:-apple-system,sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Threads</span>
+                <a href="https://threads.net/@bosenchiou" target="_blank" rel="noopener" style="font-family:-apple-system,sans-serif;font-size:0.92rem;color:var(--text);text-decoration:none;">@bosenchiou</a>
               </div>
             </div>
           </div>
@@ -751,7 +777,7 @@
   </section>
 
   <footer>
-    <span class="footer-logo">Maison</span>
+    <span class="footer-logo">Bosen</span>
     <span>© 2026 — All Rights Reserved</span>
     <div class="footer-social">
       <!-- Instagram -->
