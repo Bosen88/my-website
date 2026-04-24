@@ -520,6 +520,15 @@
       .contact-item-text .ph-line:nth-child(2) { width: min(150px, 55vw); }
     }
 
+    /* ── Art images (SVG illustrations) ── */
+    .art-img {
+      display: block;
+      overflow: hidden;
+      line-height: 0;
+      border: 1px solid var(--divider);
+    }
+    .art-img svg { display: block; width: 100%; height: 100%; }
+
     /* ── Ask CTA (under service cards) ── */
     .ask-cta {
       margin-top: 2.5rem;
@@ -624,7 +633,34 @@
       </svg>
     </div>
     <div class="hero-img-wrap">
-      <div class="ph-img">圖片 1720 × 968</div>
+      <div class="art-img" style="aspect-ratio:16/9;width:100%;max-width:900px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 506" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <pattern id="hd" width="45" height="45" patternUnits="userSpaceOnUse"><circle cx="0" cy="0" r="0.9" fill="#c9a84c" opacity="0.13"/></pattern>
+            <radialGradient id="hg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c9a84c" stop-opacity="0.14"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect width="900" height="506" fill="#0a0a0a"/>
+          <rect width="900" height="506" fill="url(#hd)"/>
+          <ellipse cx="450" cy="253" rx="320" ry="170" fill="url(#hg)"/>
+          <!-- horizontal parallels -->
+          <line x1="0" y1="80"  x2="900" y2="80"  stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
+          <line x1="0" y1="180" x2="900" y2="180" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
+          <line x1="0" y1="253" x2="900" y2="253" stroke="#c9a84c" stroke-width="0.7" opacity="0.32"/>
+          <line x1="0" y1="326" x2="900" y2="326" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
+          <line x1="0" y1="426" x2="900" y2="426" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
+          <!-- THE slash — 斜槓 -->
+          <line x1="230" y1="506" x2="670" y2="0" stroke="#e2c97e" stroke-width="9" opacity="0.05"/>
+          <line x1="230" y1="506" x2="670" y2="0" stroke="#c9a84c" stroke-width="1.6" opacity="0.7"/>
+          <!-- secondary slash -->
+          <line x1="370" y1="506" x2="810" y2="0" stroke="#c9a84c" stroke-width="0.6" opacity="0.22"/>
+          <!-- focal point -->
+          <circle cx="450" cy="253" r="3.5" fill="#c9a84c" opacity="0.95"/>
+          <circle cx="450" cy="253" r="14"  fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.45"/>
+          <circle cx="450" cy="253" r="30"  fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.2"/>
+          <!-- watermark -->
+          <text x="450" y="490" text-anchor="middle" fill="#c9a84c" opacity="0.18" font-family="serif" font-size="10" letter-spacing="8">副業 × 創業 × 斜槓</text>
+        </svg>
+      </div>
     </div>
   </section>
 
@@ -635,7 +671,45 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-photo">
-          <div class="ph-img">照片 800 × 1000</div>
+          <div class="art-img" style="aspect-ratio:4/5;width:100%;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="500" fill="#111111"/>
+              <!-- portrait ring -->
+              <circle cx="200" cy="190" r="148" fill="#161616"/>
+              <circle cx="200" cy="190" r="148" fill="none" stroke="#c9a84c" stroke-width="0.9" opacity="0.5"/>
+              <circle cx="200" cy="190" r="154" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.18"/>
+              <!-- person silhouette -->
+              <circle cx="200" cy="145" r="40" fill="#1e1e1e"/>
+              <path d="M110,270 Q110,210 200,210 Q290,210 290,270 L290,310 L110,310 Z" fill="#1e1e1e"/>
+              <!-- divider -->
+              <line x1="44" y1="388" x2="356" y2="388" stroke="#c9a84c" stroke-width="0.5" opacity="0.28"/>
+              <!-- coffee cup left -->
+              <rect x="96"  y="408" width="44" height="38" rx="3" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+              <path d="M140,419 Q158,419 158,432 Q158,445 140,445" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+              <line x1="83" y1="448" x2="161" y2="448" stroke="#c9a84c" stroke-width="0.8" opacity="0.35"/>
+              <path d="M110,405 Q113,396 110,387" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.28"/>
+              <path d="M118,404 Q121,395 118,386" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.28"/>
+              <path d="M126,405 Q129,396 126,387" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.28"/>
+              <text x="118" y="474" text-anchor="middle" fill="#8a8070" font-size="9" font-family="sans-serif" letter-spacing="3">CAFÉ</text>
+              <!-- × -->
+              <text x="200" y="438" text-anchor="middle" fill="#c9a84c" opacity="0.38" font-family="serif" font-size="18">×</text>
+              <!-- chip right -->
+              <rect x="260" y="410" width="44" height="32" rx="3" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+              <line x1="267" y1="410" x2="267" y2="402" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="276" y1="410" x2="276" y2="402" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="285" y1="410" x2="285" y2="402" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="267" y1="442" x2="267" y2="450" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="276" y1="442" x2="276" y2="450" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="285" y1="442" x2="285" y2="450" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="260" y1="418" x2="252" y2="418" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="260" y1="426" x2="252" y2="426" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="304" y1="418" x2="312" y2="418" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <line x1="304" y1="426" x2="312" y2="426" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
+              <rect x="267" y="418" width="30" height="16" rx="2" fill="#c9a84c" opacity="0.07"/>
+              <text x="282" y="474" text-anchor="middle" fill="#8a8070" font-size="9" font-family="sans-serif" letter-spacing="3">南科</text>
+              <text x="200" y="493" text-anchor="middle" fill="#c9a84c" opacity="0.13" font-family="serif" font-size="9" letter-spacing="5">個人照片</text>
+            </svg>
+          </div>
         </div>
         <div class="about-copy">
           <span class="section-label">關於我</span>
@@ -673,7 +747,25 @@
 
         <div class="service-card">
           <div class="card-img-wrap">
-            <div class="ph-img">圖片 600 × 450</div>
+            <div class="art-img" style="aspect-ratio:4/3;width:100%;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice">
+                <rect width="300" height="225" fill="#0a0a0a"/>
+                <circle cx="150" cy="108" r="72" fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.3"/>
+                <circle cx="150" cy="108" r="74" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.14"/>
+                <!-- axis lines -->
+                <line x1="150" y1="32"  x2="150" y2="184" stroke="#c9a84c" stroke-width="0.5" opacity="0.22"/>
+                <line x1="74"  y1="108" x2="226" y2="108" stroke="#c9a84c" stroke-width="0.5" opacity="0.22"/>
+                <line x1="96"  y1="54"  x2="204" y2="162" stroke="#c9a84c" stroke-width="0.3" opacity="0.13"/>
+                <line x1="204" y1="54"  x2="96"  y2="162" stroke="#c9a84c" stroke-width="0.3" opacity="0.13"/>
+                <!-- needle (NE) -->
+                <polygon points="150,108 180,78 163,95" fill="#c9a84c" opacity="0.9"/>
+                <polygon points="150,108 120,138 137,121" fill="#c9a84c" opacity="0.3"/>
+                <circle cx="150" cy="108" r="5"  fill="#c9a84c"/>
+                <circle cx="150" cy="108" r="10" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+                <text x="150" y="28" text-anchor="middle" fill="#c9a84c" opacity="0.38" font-family="sans-serif" font-size="9" letter-spacing="1">N</text>
+                <text x="150" y="216" text-anchor="middle" fill="#c9a84c" opacity="0.22" font-family="serif" font-size="8" letter-spacing="5">DIRECTION</text>
+              </svg>
+            </div>
           </div>
           <span class="card-number">01</span>
           <div class="card-title-text">副業方向諮詢</div>
@@ -688,7 +780,31 @@
 
         <div class="service-card">
           <div class="card-img-wrap">
-            <div class="ph-img">圖片 600 × 450</div>
+            <div class="art-img" style="aspect-ratio:4/3;width:100%;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice">
+                <rect width="300" height="225" fill="#0a0a0a"/>
+                <!-- grid -->
+                <line x1="40" y1="185" x2="265" y2="185" stroke="#c9a84c" stroke-width="0.4" opacity="0.2"/>
+                <line x1="40" y1="148" x2="265" y2="148" stroke="#c9a84c" stroke-width="0.3" opacity="0.11"/>
+                <line x1="40" y1="111" x2="265" y2="111" stroke="#c9a84c" stroke-width="0.3" opacity="0.11"/>
+                <line x1="40" y1="74"  x2="265" y2="74"  stroke="#c9a84c" stroke-width="0.3" opacity="0.11"/>
+                <line x1="40" y1="40"  x2="40"  y2="190" stroke="#c9a84c" stroke-width="0.4" opacity="0.2"/>
+                <!-- bars -->
+                <rect x="68"  y="152" width="38" height="33" fill="#c9a84c" opacity="0.22" rx="1"/>
+                <rect x="130" y="112" width="38" height="73" fill="#c9a84c" opacity="0.33" rx="1"/>
+                <rect x="192" y="68"  width="38" height="117" fill="#c9a84c" opacity="0.52" rx="1"/>
+                <!-- bar-top highlights -->
+                <line x1="68"  y1="152" x2="106" y2="152" stroke="#c9a84c" stroke-width="1.6" opacity="0.65"/>
+                <line x1="130" y1="112" x2="168" y2="112" stroke="#c9a84c" stroke-width="1.6" opacity="0.75"/>
+                <line x1="192" y1="68"  x2="230" y2="68"  stroke="#c9a84c" stroke-width="1.6" opacity="0.95"/>
+                <!-- dashed trend line -->
+                <polyline points="87,152 149,112 211,68" fill="none" stroke="#c9a84c" stroke-width="0.9" stroke-dasharray="4 3" opacity="0.5"/>
+                <circle cx="87"  cy="152" r="3"   fill="#c9a84c" opacity="0.55"/>
+                <circle cx="149" cy="112" r="3"   fill="#c9a84c" opacity="0.7"/>
+                <circle cx="211" cy="68"  r="4.5" fill="#c9a84c" opacity="1"/>
+                <text x="150" y="214" text-anchor="middle" fill="#c9a84c" opacity="0.22" font-family="serif" font-size="8" letter-spacing="5">GROWTH</text>
+              </svg>
+            </div>
           </div>
           <span class="card-number">02</span>
           <div class="card-title-text">創業入門陪跑</div>
@@ -703,7 +819,29 @@
 
         <div class="service-card">
           <div class="card-img-wrap">
-            <div class="ph-img">圖片 600 × 450</div>
+            <div class="art-img" style="aspect-ratio:4/3;width:100%;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice">
+                <rect width="300" height="225" fill="#0a0a0a"/>
+                <!-- house body -->
+                <rect x="88" y="118" width="124" height="82" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+                <!-- roof -->
+                <polyline points="78,118 150,52 222,118" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+                <!-- door -->
+                <path d="M134,200 L134,160 Q134,148 150,148 Q166,148 166,160 L166,200" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.42"/>
+                <!-- windows -->
+                <rect x="98"  y="130" width="24" height="20" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+                <rect x="178" y="130" width="24" height="20" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
+                <!-- stem from roof peak -->
+                <line x1="150" y1="52" x2="150" y2="18" stroke="#c9a84c" stroke-width="1.1" opacity="0.6"/>
+                <!-- leaf left -->
+                <path d="M150,40 Q130,28 128,13 Q141,17 150,40" fill="#c9a84c" opacity="0.42"/>
+                <!-- leaf right -->
+                <path d="M150,32 Q170,20 172,5 Q159,9 150,32" fill="#c9a84c" opacity="0.58"/>
+                <!-- bud -->
+                <circle cx="150" cy="12" r="5.5" fill="#c9a84c" opacity="0.75"/>
+                <text x="150" y="216" text-anchor="middle" fill="#c9a84c" opacity="0.22" font-family="serif" font-size="8" letter-spacing="5">FAMILY</text>
+              </svg>
+            </div>
           </div>
           <span class="card-number">03</span>
           <div class="card-title-text">斜槓媽媽計畫</div>
@@ -733,7 +871,33 @@
     <div class="container">
       <div class="contact-grid">
         <div class="contact-img">
-          <div class="ph-img">圖片 800 × 800</div>
+          <div class="art-img" style="aspect-ratio:1;width:100%;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="400" fill="#111111"/>
+              <!-- left circle -->
+              <circle cx="158" cy="200" r="105" fill="#c9a84c" opacity="0.03"/>
+              <circle cx="158" cy="200" r="105" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
+              <!-- right circle -->
+              <circle cx="242" cy="200" r="105" fill="#c9a84c" opacity="0.03"/>
+              <circle cx="242" cy="200" r="105" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
+              <!-- intersection glow -->
+              <ellipse cx="200" cy="200" rx="34" ry="84" fill="#c9a84c" opacity="0.07"/>
+              <!-- outer rings (depth) -->
+              <circle cx="158" cy="200" r="118" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12"/>
+              <circle cx="242" cy="200" r="118" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12"/>
+              <!-- intersection vertical -->
+              <line x1="200" y1="105" x2="200" y2="295" stroke="#c9a84c" stroke-width="0.5" opacity="0.22"/>
+              <!-- center spark -->
+              <circle cx="200" cy="200" r="5"  fill="#c9a84c" opacity="0.95"/>
+              <circle cx="200" cy="200" r="13" fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.5"/>
+              <circle cx="200" cy="200" r="24" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.24"/>
+              <!-- cross -->
+              <line x1="200" y1="184" x2="200" y2="216" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
+              <line x1="184" y1="200" x2="216" y2="200" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
+              <!-- label -->
+              <text x="200" y="375" text-anchor="middle" fill="#c9a84c" opacity="0.18" font-family="serif" font-size="10" letter-spacing="7">CONNECTION</text>
+            </svg>
+          </div>
         </div>
         <div class="contact-copy">
           <span class="section-label">加入我們</span>
