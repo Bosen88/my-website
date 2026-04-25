@@ -634,31 +634,83 @@
     </div>
     <div class="hero-img-wrap">
       <div class="art-img" style="aspect-ratio:16/9;width:100%;max-width:900px;">
+        <!-- Hero: overhead desk flat-lay — warm wood, laptop, coffee, notebook -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 506" preserveAspectRatio="xMidYMid slice">
           <defs>
-            <pattern id="hd" width="45" height="45" patternUnits="userSpaceOnUse"><circle cx="0" cy="0" r="0.9" fill="#c9a84c" opacity="0.13"/></pattern>
-            <radialGradient id="hg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c9a84c" stop-opacity="0.14"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></radialGradient>
+            <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7a4f2d"/><stop offset="40%" stop-color="#5c3318"/><stop offset="100%" stop-color="#6b3e20"/></linearGradient>
+            <radialGradient id="light" cx="25%" cy="20%" r="60%"><stop offset="0%" stop-color="#c8955a" stop-opacity="0.35"/><stop offset="100%" stop-color="#3a1e08" stop-opacity="0"/></radialGradient>
+            <radialGradient id="vign" cx="50%" cy="50%" r="70%"><stop offset="40%" stop-color="transparent"/><stop offset="100%" stop-color="#1a0900" stop-opacity="0.55"/></radialGradient>
+            <radialGradient id="scrn" cx="50%" cy="40%" r="55%"><stop offset="0%" stop-color="#6ab0d4" stop-opacity="0.9"/><stop offset="100%" stop-color="#1a3a52"/></radialGradient>
+            <filter id="shdw"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#1a0900" flood-opacity="0.5"/></filter>
+            <filter id="blur4"><feGaussianBlur stdDeviation="4"/></filter>
+            <filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
           </defs>
-          <rect width="900" height="506" fill="#0a0a0a"/>
-          <rect width="900" height="506" fill="url(#hd)"/>
-          <ellipse cx="450" cy="253" rx="320" ry="170" fill="url(#hg)"/>
-          <!-- horizontal parallels -->
-          <line x1="0" y1="80"  x2="900" y2="80"  stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
-          <line x1="0" y1="180" x2="900" y2="180" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
-          <line x1="0" y1="253" x2="900" y2="253" stroke="#c9a84c" stroke-width="0.7" opacity="0.32"/>
-          <line x1="0" y1="326" x2="900" y2="326" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
-          <line x1="0" y1="426" x2="900" y2="426" stroke="#c9a84c" stroke-width="0.4" opacity="0.18"/>
-          <!-- THE slash — 斜槓 -->
-          <line x1="230" y1="506" x2="670" y2="0" stroke="#e2c97e" stroke-width="9" opacity="0.05"/>
-          <line x1="230" y1="506" x2="670" y2="0" stroke="#c9a84c" stroke-width="1.6" opacity="0.7"/>
-          <!-- secondary slash -->
-          <line x1="370" y1="506" x2="810" y2="0" stroke="#c9a84c" stroke-width="0.6" opacity="0.22"/>
-          <!-- focal point -->
-          <circle cx="450" cy="253" r="3.5" fill="#c9a84c" opacity="0.95"/>
-          <circle cx="450" cy="253" r="14"  fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.45"/>
-          <circle cx="450" cy="253" r="30"  fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.2"/>
-          <!-- watermark -->
-          <text x="450" y="490" text-anchor="middle" fill="#c9a84c" opacity="0.18" font-family="serif" font-size="10" letter-spacing="8">副業 × 創業 × 斜槓</text>
+          <!-- desk surface -->
+          <rect width="900" height="506" fill="url(#wood)"/>
+          <!-- wood grain lines -->
+          <line x1="0" y1="90"  x2="900" y2="78"  stroke="#3e200a" stroke-width="1.2" opacity="0.35"/>
+          <line x1="0" y1="210" x2="900" y2="196" stroke="#3e200a" stroke-width="0.8" opacity="0.25"/>
+          <line x1="0" y1="340" x2="900" y2="352" stroke="#3e200a" stroke-width="1"   opacity="0.3"/>
+          <line x1="0" y1="430" x2="900" y2="418" stroke="#3e200a" stroke-width="0.8" opacity="0.22"/>
+          <!-- ambient light from top-left -->
+          <rect width="900" height="506" fill="url(#light)"/>
+          <!-- ── LAPTOP ── -->
+          <g filter="url(#shdw)">
+            <rect x="210" y="100" width="480" height="310" rx="12" fill="#d0d0ce"/>
+            <rect x="210" y="100" width="480" height="310" rx="12" fill="url(#scrn)" opacity="0.18"/>
+            <rect x="228" y="118" width="444" height="270" rx="5" fill="url(#scrn)"/>
+            <!-- screen content glow -->
+            <rect x="228" y="118" width="444" height="270" rx="5" fill="#0d2233" opacity="0.6"/>
+            <!-- screen UI mockup lines -->
+            <rect x="248" y="138" width="180" height="12" rx="3" fill="#4a90b8" opacity="0.7"/>
+            <rect x="248" y="160" width="280" height="8"  rx="2" fill="#6ab0d4" opacity="0.4"/>
+            <rect x="248" y="178" width="240" height="8"  rx="2" fill="#6ab0d4" opacity="0.3"/>
+            <rect x="248" y="196" width="200" height="8"  rx="2" fill="#6ab0d4" opacity="0.25"/>
+            <!-- graph on screen -->
+            <rect x="380" y="155" width="25" height="60" rx="2" fill="#c9a84c" opacity="0.5"/>
+            <rect x="414" y="135" width="25" height="80" rx="2" fill="#c9a84c" opacity="0.65"/>
+            <rect x="448" y="115" width="25" height="100" rx="2" fill="#c9a84c" opacity="0.8"/>
+            <rect x="248" y="225" width="400" height="1" fill="#4a90b8" opacity="0.25"/>
+            <!-- laptop hinge/base -->
+            <rect x="210" y="405" width="480" height="5" rx="2" fill="#b8b8b6"/>
+          </g>
+          <!-- ── COFFEE CUP (top view, right side) ── -->
+          <g filter="url(#blur2)" opacity="0.3">
+            <circle cx="760" cy="160" r="62" fill="#c8955a"/>
+          </g>
+          <circle cx="760" cy="155" r="52" fill="#f0e6d8"/>
+          <circle cx="760" cy="155" r="46" fill="#d4b896"/>
+          <circle cx="760" cy="155" r="38" fill="#8B5230"/>
+          <circle cx="760" cy="155" r="34" fill="#6b3a18"/>
+          <!-- coffee ripple -->
+          <ellipse cx="752" cy="148" rx="14" ry="10" fill="#7d4520" opacity="0.5" transform="rotate(-20,752,148)"/>
+          <!-- saucer -->
+          <ellipse cx="760" cy="215" rx="56" ry="10" fill="#e8ddd0" opacity="0.6"/>
+          <!-- ── NOTEBOOK (bottom-left) ── -->
+          <g filter="url(#shdw)">
+            <rect x="30" y="290" width="220" height="175" rx="4" fill="#f5f0e8" transform="rotate(-5,30,290)"/>
+            <rect x="30" y="290" width="220" height="175" rx="4" fill="none" stroke="#d4c9b4" stroke-width="1" transform="rotate(-5,30,290)" opacity="0.8"/>
+            <!-- notebook lines -->
+            <line x1="52"  y1="330" x2="230" y2="324" stroke="#ccc4b0" stroke-width="0.8" opacity="0.7" transform="rotate(-5,52,330)"/>
+            <line x1="52"  y1="350" x2="230" y2="344" stroke="#ccc4b0" stroke-width="0.8" opacity="0.7" transform="rotate(-5,52,350)"/>
+            <line x1="52"  y1="370" x2="230" y2="364" stroke="#ccc4b0" stroke-width="0.8" opacity="0.7" transform="rotate(-5,52,370)"/>
+            <line x1="52"  y1="390" x2="200" y2="385" stroke="#ccc4b0" stroke-width="0.8" opacity="0.5" transform="rotate(-5,52,390)"/>
+            <!-- pen -->
+            <rect x="240" y="285" width="8" height="180" rx="3" fill="#2a2a2a" transform="rotate(-5,240,285)"/>
+            <rect x="240" y="285" width="8" height="18"  rx="3" fill="#c9a84c" transform="rotate(-5,240,285)"/>
+          </g>
+          <!-- ── PHONE (bottom-right) ── -->
+          <g filter="url(#shdw)">
+            <rect x="720" y="310" width="110" height="175" rx="12" fill="#1a1a1a" transform="rotate(8,720,310)"/>
+            <rect x="728" y="320" width="94"  height="152" rx="6"  fill="#0d2233" transform="rotate(8,728,320)"/>
+            <!-- phone screen glow -->
+            <rect x="728" y="320" width="94"  height="152" rx="6"  fill="#4a90b8" opacity="0.2" transform="rotate(8,728,320)"/>
+            <rect x="738" y="335" width="74"  height="10"  rx="3"  fill="#c9a84c" opacity="0.7" transform="rotate(8,738,335)"/>
+            <rect x="738" y="352" width="55"  height="8"   rx="2"  fill="#6ab0d4" opacity="0.5" transform="rotate(8,738,352)"/>
+            <rect x="738" y="368" width="65"  height="8"   rx="2"  fill="#6ab0d4" opacity="0.4" transform="rotate(8,738,368)"/>
+          </g>
+          <!-- vignette -->
+          <rect width="900" height="506" fill="url(#vign)"/>
         </svg>
       </div>
     </div>
@@ -672,42 +724,70 @@
       <div class="about-grid">
         <div class="about-photo">
           <div class="art-img" style="aspect-ratio:4/5;width:100%;">
+            <!-- About: portrait with bokeh background -->
+            <!-- About: warm portrait with bokeh depth -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
-              <rect width="400" height="500" fill="#111111"/>
-              <!-- portrait ring -->
-              <circle cx="200" cy="190" r="148" fill="#161616"/>
-              <circle cx="200" cy="190" r="148" fill="none" stroke="#c9a84c" stroke-width="0.9" opacity="0.5"/>
-              <circle cx="200" cy="190" r="154" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.18"/>
-              <!-- person silhouette -->
-              <circle cx="200" cy="145" r="40" fill="#1e1e1e"/>
-              <path d="M110,270 Q110,210 200,210 Q290,210 290,270 L290,310 L110,310 Z" fill="#1e1e1e"/>
-              <!-- divider -->
-              <line x1="44" y1="388" x2="356" y2="388" stroke="#c9a84c" stroke-width="0.5" opacity="0.28"/>
-              <!-- coffee cup left -->
-              <rect x="96"  y="408" width="44" height="38" rx="3" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
-              <path d="M140,419 Q158,419 158,432 Q158,445 140,445" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
-              <line x1="83" y1="448" x2="161" y2="448" stroke="#c9a84c" stroke-width="0.8" opacity="0.35"/>
-              <path d="M110,405 Q113,396 110,387" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.28"/>
-              <path d="M118,404 Q121,395 118,386" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.28"/>
-              <path d="M126,405 Q129,396 126,387" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.28"/>
-              <text x="118" y="474" text-anchor="middle" fill="#8a8070" font-size="9" font-family="sans-serif" letter-spacing="3">CAFÉ</text>
-              <!-- × -->
-              <text x="200" y="438" text-anchor="middle" fill="#c9a84c" opacity="0.38" font-family="serif" font-size="18">×</text>
-              <!-- chip right -->
-              <rect x="260" y="410" width="44" height="32" rx="3" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
-              <line x1="267" y1="410" x2="267" y2="402" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="276" y1="410" x2="276" y2="402" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="285" y1="410" x2="285" y2="402" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="267" y1="442" x2="267" y2="450" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="276" y1="442" x2="276" y2="450" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="285" y1="442" x2="285" y2="450" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="260" y1="418" x2="252" y2="418" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="260" y1="426" x2="252" y2="426" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="304" y1="418" x2="312" y2="418" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <line x1="304" y1="426" x2="312" y2="426" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"/>
-              <rect x="267" y="418" width="30" height="16" rx="2" fill="#c9a84c" opacity="0.07"/>
-              <text x="282" y="474" text-anchor="middle" fill="#8a8070" font-size="9" font-family="sans-serif" letter-spacing="3">南科</text>
-              <text x="200" y="493" text-anchor="middle" fill="#c9a84c" opacity="0.13" font-family="serif" font-size="9" letter-spacing="5">個人照片</text>
+              <defs>
+                <linearGradient id="bg-port" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2c1f14"/><stop offset="100%" stop-color="#1a1008"/></linearGradient>
+                <radialGradient id="win-light" cx="10%" cy="30%" r="60%"><stop offset="0%" stop-color="#c8864a" stop-opacity="0.5"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+                <radialGradient id="skin-face" cx="45%" cy="40%" r="55%"><stop offset="0%" stop-color="#d4956a"/><stop offset="100%" stop-color="#a8652a"/></radialGradient>
+                <radialGradient id="skin-neck" cx="50%" cy="30%" r="55%"><stop offset="0%" stop-color="#c8834e"/><stop offset="100%" stop-color="#9a5820"/></radialGradient>
+                <radialGradient id="vp" cx="50%" cy="50%" r="60%"><stop offset="30%" stop-color="transparent"/><stop offset="100%" stop-color="#0a0500" stop-opacity="0.65"/></radialGradient>
+                <filter id="bk8"><feGaussianBlur stdDeviation="8"/></filter>
+                <filter id="bk18"><feGaussianBlur stdDeviation="18"/></filter>
+                <filter id="bk4"><feGaussianBlur stdDeviation="4"/></filter>
+              </defs>
+              <!-- bg -->
+              <rect width="400" height="500" fill="url(#bg-port)"/>
+              <!-- bokeh circles (out of focus background lights) -->
+              <circle cx="340" cy="60"  r="55" fill="#c9823a" opacity="0.22" filter="url(#bk18)"/>
+              <circle cx="60"  cy="90"  r="45" fill="#d4a050" opacity="0.18" filter="url(#bk18)"/>
+              <circle cx="370" cy="280" r="38" fill="#a05c20" opacity="0.18" filter="url(#bk18)"/>
+              <circle cx="30"  cy="400" r="50" fill="#c87830" opacity="0.15" filter="url(#bk18)"/>
+              <circle cx="300" cy="440" r="42" fill="#d4a050" opacity="0.12" filter="url(#bk18)"/>
+              <circle cx="150" cy="20"  r="30" fill="#f0c060" opacity="0.1"  filter="url(#bk18)"/>
+              <!-- window light -->
+              <rect width="400" height="500" fill="url(#win-light)"/>
+              <!-- ── BODY / SHIRT ── -->
+              <path d="M50,500 L50,330 Q100,290 200,285 Q300,290 350,330 L350,500 Z" fill="#2a3a4a"/>
+              <!-- shirt collar / neck shadow -->
+              <path d="M160,290 Q200,280 240,290 L240,340 Q200,360 160,340 Z" fill="#1e2c3a"/>
+              <!-- ── NECK ── -->
+              <rect x="170" y="230" width="60" height="70" rx="20" fill="url(#skin-neck)"/>
+              <!-- neck shadow left -->
+              <ellipse cx="178" cy="265" rx="10" ry="30" fill="#7a3c10" opacity="0.35"/>
+              <!-- ── HEAD ── -->
+              <ellipse cx="200" cy="175" rx="72" ry="82" fill="url(#skin-face)"/>
+              <!-- face shadow side (light from left) -->
+              <ellipse cx="248" cy="178" rx="38" ry="60" fill="#7a3c10" opacity="0.28"/>
+              <!-- ── HAIR ── -->
+              <path d="M128,165 Q130,90 200,88 Q270,90 272,165 Q268,110 200,105 Q132,110 128,165 Z" fill="#1a0f08"/>
+              <!-- hair sides -->
+              <ellipse cx="134" cy="178" rx="16" ry="28" fill="#1a0f08"/>
+              <ellipse cx="266" cy="178" rx="16" ry="28" fill="#1a0f08"/>
+              <!-- ── EYES ── -->
+              <ellipse cx="176" cy="178" rx="11" ry="7"   fill="#fff8f0" opacity="0.9"/>
+              <ellipse cx="224" cy="178" rx="11" ry="7"   fill="#fff8f0" opacity="0.9"/>
+              <circle  cx="178" cy="179" r="6"            fill="#2a1a08"/>
+              <circle  cx="226" cy="179" r="6"            fill="#2a1a08"/>
+              <circle  cx="180" cy="177" r="2"            fill="#fff" opacity="0.7"/>
+              <circle  cx="228" cy="177" r="2"            fill="#fff" opacity="0.7"/>
+              <!-- eyebrows -->
+              <path d="M163,168 Q176,163 190,167" stroke="#1a0f08" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M210,167 Q224,163 237,168" stroke="#1a0f08" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <!-- ── NOSE ── -->
+              <path d="M196,185 Q192,205 186,210 Q200,215 214,210 Q208,205 204,185" stroke="#8a4820" stroke-width="1.2" fill="none" opacity="0.6"/>
+              <!-- ── MOUTH ── -->
+              <path d="M183,225 Q200,235 217,225" stroke="#9a4820" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <!-- ── GLASSES (optional detail) ── -->
+              <rect x="162" y="172" width="28" height="16" rx="5" fill="none" stroke="#2a1a08" stroke-width="1.5" opacity="0.5"/>
+              <rect x="210" y="172" width="28" height="16" rx="5" fill="none" stroke="#2a1a08" stroke-width="1.5" opacity="0.5"/>
+              <line x1="190" y1="179" x2="210" y2="179" stroke="#2a1a08" stroke-width="1.2" opacity="0.5"/>
+              <!-- ear left glow -->
+              <ellipse cx="128" cy="190" rx="9" ry="13" fill="#c8834e"/>
+              <ellipse cx="272" cy="190" rx="9" ry="13" fill="#a86030"/>
+              <!-- vignette -->
+              <rect width="400" height="500" fill="url(#vp)"/>
             </svg>
           </div>
         </div>
@@ -748,22 +828,57 @@
         <div class="service-card">
           <div class="card-img-wrap">
             <div class="art-img" style="aspect-ratio:4/3;width:100%;">
+              <!-- Service 01: one-on-one consultation at a café table -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice">
-                <rect width="300" height="225" fill="#0a0a0a"/>
-                <circle cx="150" cy="108" r="72" fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.3"/>
-                <circle cx="150" cy="108" r="74" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.14"/>
-                <!-- axis lines -->
-                <line x1="150" y1="32"  x2="150" y2="184" stroke="#c9a84c" stroke-width="0.5" opacity="0.22"/>
-                <line x1="74"  y1="108" x2="226" y2="108" stroke="#c9a84c" stroke-width="0.5" opacity="0.22"/>
-                <line x1="96"  y1="54"  x2="204" y2="162" stroke="#c9a84c" stroke-width="0.3" opacity="0.13"/>
-                <line x1="204" y1="54"  x2="96"  y2="162" stroke="#c9a84c" stroke-width="0.3" opacity="0.13"/>
-                <!-- needle (NE) -->
-                <polygon points="150,108 180,78 163,95" fill="#c9a84c" opacity="0.9"/>
-                <polygon points="150,108 120,138 137,121" fill="#c9a84c" opacity="0.3"/>
-                <circle cx="150" cy="108" r="5"  fill="#c9a84c"/>
-                <circle cx="150" cy="108" r="10" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
-                <text x="150" y="28" text-anchor="middle" fill="#c9a84c" opacity="0.38" font-family="sans-serif" font-size="9" letter-spacing="1">N</text>
-                <text x="150" y="216" text-anchor="middle" fill="#c9a84c" opacity="0.22" font-family="serif" font-size="8" letter-spacing="5">DIRECTION</text>
+                <defs>
+                  <linearGradient id="s1bg" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#2a1e14"/><stop offset="100%" stop-color="#160e08"/></linearGradient>
+                  <radialGradient id="s1tl" cx="30%" cy="20%" r="55%"><stop offset="0%" stop-color="#c87830" stop-opacity="0.45"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+                  <radialGradient id="s1tr" cx="80%" cy="15%" r="45%"><stop offset="0%" stop-color="#d4a050" stop-opacity="0.25"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+                  <filter id="s1b6"><feGaussianBlur stdDeviation="6"/></filter>
+                  <filter id="s1b3"><feGaussianBlur stdDeviation="3"/></filter>
+                  <radialGradient id="s1vg" cx="50%" cy="50%" r="70%"><stop offset="30%" stop-color="transparent"/><stop offset="100%" stop-color="#0a0500" stop-opacity="0.6"/></radialGradient>
+                </defs>
+                <rect width="300" height="225" fill="url(#s1bg)"/>
+                <!-- warm bokeh lights -->
+                <circle cx="260" cy="30"  r="40" fill="#d4903a" opacity="0.2" filter="url(#s1b6)"/>
+                <circle cx="40"  cy="25"  r="32" fill="#c87030" opacity="0.18" filter="url(#s1b6)"/>
+                <rect width="300" height="225" fill="url(#s1tl)"/>
+                <rect width="300" height="225" fill="url(#s1tr)"/>
+                <!-- table surface (bottom half) -->
+                <path d="M0,140 L300,140 L300,225 L0,225 Z" fill="#5c3318" opacity="0.9"/>
+                <path d="M0,140 L300,140 L300,155 L0,155 Z" fill="#7a4828" opacity="0.8"/>
+                <!-- table edge highlight -->
+                <line x1="0" y1="140" x2="300" y2="140" stroke="#9a6040" stroke-width="1.2" opacity="0.6"/>
+                <!-- ── Person LEFT (silhouette, facing right) ── -->
+                <!-- body -->
+                <path d="M0,225 L0,130 Q20,118 50,115 Q70,112 80,120 L85,225 Z" fill="#1e2a38"/>
+                <!-- head -->
+                <ellipse cx="50" cy="100" rx="26" ry="30" fill="#c8834e"/>
+                <!-- hair -->
+                <path d="M24,95 Q26,68 50,66 Q74,68 76,95 Q72,75 50,72 Q28,75 24,95 Z" fill="#1a0f08"/>
+                <!-- ── Person RIGHT (silhouette, facing left) ── -->
+                <path d="M300,225 L300,128 Q280,116 250,114 Q230,111 220,120 L215,225 Z" fill="#2a2032"/>
+                <ellipse cx="250" cy="98" rx="26" ry="30" fill="#d4a070"/>
+                <path d="M224,93 Q226,66 250,64 Q274,66 276,93 Q272,73 250,70 Q228,73 224,93 Z" fill="#3a1a08"/>
+                <!-- ── Two coffee cups on table ── -->
+                <!-- left cup -->
+                <ellipse cx="110" cy="148" rx="18" ry="7" fill="#e8ddd0" opacity="0.8"/>
+                <path d="M92,148 L96,168 Q110,172 124,168 L128,148 Z" fill="#f0ece6"/>
+                <path d="M92,148 L128,148" stroke="#d4c8b8" stroke-width="0.8"/>
+                <ellipse cx="110" cy="148" rx="18" ry="7" fill="#6b3a18" opacity="0.5"/>
+                <!-- right cup -->
+                <ellipse cx="190" cy="148" rx="18" ry="7" fill="#e8ddd0" opacity="0.8"/>
+                <path d="M172,148 L176,168 Q190,172 204,168 L208,148 Z" fill="#f0ece6"/>
+                <path d="M172,148 L208,148" stroke="#d4c8b8" stroke-width="0.8"/>
+                <ellipse cx="190" cy="148" rx="18" ry="7" fill="#6b3a18" opacity="0.5"/>
+                <!-- laptop on table -->
+                <rect x="115" y="120" width="70" height="48" rx="3" fill="#c8c8c6" opacity="0.85"/>
+                <rect x="118" y="123" width="64" height="38" rx="2" fill="#1a3040"/>
+                <rect x="118" y="123" width="64" height="38" rx="2" fill="#4a90b8" opacity="0.3"/>
+                <!-- laptop base -->
+                <rect x="112" y="166" width="76" height="4" rx="1" fill="#b0b0ae"/>
+                <!-- vignette -->
+                <rect width="300" height="225" fill="url(#s1vg)"/>
               </svg>
             </div>
           </div>
@@ -781,28 +896,62 @@
         <div class="service-card">
           <div class="card-img-wrap">
             <div class="art-img" style="aspect-ratio:4/3;width:100%;">
+              <!-- Service 02: entrepreneur planning — desk, open notebook, lamp, person writing -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice">
-                <rect width="300" height="225" fill="#0a0a0a"/>
-                <!-- grid -->
-                <line x1="40" y1="185" x2="265" y2="185" stroke="#c9a84c" stroke-width="0.4" opacity="0.2"/>
-                <line x1="40" y1="148" x2="265" y2="148" stroke="#c9a84c" stroke-width="0.3" opacity="0.11"/>
-                <line x1="40" y1="111" x2="265" y2="111" stroke="#c9a84c" stroke-width="0.3" opacity="0.11"/>
-                <line x1="40" y1="74"  x2="265" y2="74"  stroke="#c9a84c" stroke-width="0.3" opacity="0.11"/>
-                <line x1="40" y1="40"  x2="40"  y2="190" stroke="#c9a84c" stroke-width="0.4" opacity="0.2"/>
-                <!-- bars -->
-                <rect x="68"  y="152" width="38" height="33" fill="#c9a84c" opacity="0.22" rx="1"/>
-                <rect x="130" y="112" width="38" height="73" fill="#c9a84c" opacity="0.33" rx="1"/>
-                <rect x="192" y="68"  width="38" height="117" fill="#c9a84c" opacity="0.52" rx="1"/>
-                <!-- bar-top highlights -->
-                <line x1="68"  y1="152" x2="106" y2="152" stroke="#c9a84c" stroke-width="1.6" opacity="0.65"/>
-                <line x1="130" y1="112" x2="168" y2="112" stroke="#c9a84c" stroke-width="1.6" opacity="0.75"/>
-                <line x1="192" y1="68"  x2="230" y2="68"  stroke="#c9a84c" stroke-width="1.6" opacity="0.95"/>
-                <!-- dashed trend line -->
-                <polyline points="87,152 149,112 211,68" fill="none" stroke="#c9a84c" stroke-width="0.9" stroke-dasharray="4 3" opacity="0.5"/>
-                <circle cx="87"  cy="152" r="3"   fill="#c9a84c" opacity="0.55"/>
-                <circle cx="149" cy="112" r="3"   fill="#c9a84c" opacity="0.7"/>
-                <circle cx="211" cy="68"  r="4.5" fill="#c9a84c" opacity="1"/>
-                <text x="150" y="214" text-anchor="middle" fill="#c9a84c" opacity="0.22" font-family="serif" font-size="8" letter-spacing="5">GROWTH</text>
+                <defs>
+                  <linearGradient id="s2bg" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0%" stop-color="#1e1508"/><stop offset="100%" stop-color="#0e0a04"/></linearGradient>
+                  <radialGradient id="s2lamp" cx="78%" cy="12%" r="60%"><stop offset="0%" stop-color="#f0c060" stop-opacity="0.55"/><stop offset="55%" stop-color="#c87830" stop-opacity="0.18"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+                  <radialGradient id="s2vg" cx="50%" cy="50%" r="70%"><stop offset="30%" stop-color="transparent"/><stop offset="100%" stop-color="#0a0500" stop-opacity="0.65"/></radialGradient>
+                  <filter id="s2b6"><feGaussianBlur stdDeviation="6"/></filter>
+                  <filter id="s2shdw"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0a0500" flood-opacity="0.5"/></filter>
+                </defs>
+                <!-- bg + desk surface -->
+                <rect width="300" height="225" fill="url(#s2bg)"/>
+                <rect x="0" y="148" width="300" height="77" fill="#4a2e14" opacity="0.9"/>
+                <rect x="0" y="148" width="300" height="3" fill="#6b4020" opacity="0.8"/>
+                <!-- lamp glow -->
+                <rect width="300" height="225" fill="url(#s2lamp)"/>
+                <!-- bokeh bg dots -->
+                <circle cx="18"  cy="38" r="20" fill="#c87030" opacity="0.15" filter="url(#s2b6)"/>
+                <circle cx="268" cy="55" r="16" fill="#d4a050" opacity="0.12" filter="url(#s2b6)"/>
+                <!-- desk lamp -->
+                <rect x="230" y="138" width="12" height="12" rx="2" fill="#2a2a2a"/>
+                <line x1="236" y1="138" x2="230" y2="98"  stroke="#3a3a3a" stroke-width="3"   stroke-linecap="round"/>
+                <line x1="230" y1="98"  x2="256" y2="78"  stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="round"/>
+                <ellipse cx="263" cy="74" rx="18" ry="9" fill="#4a4a4a" transform="rotate(-22,263,74)"/>
+                <path d="M251,80 Q272,132 218,150 Q252,136 267,88 Z" fill="#f0d060" opacity="0.07"/>
+                <!-- open notebook -->
+                <g filter="url(#s2shdw)">
+                  <rect x="38" y="142" width="178" height="74" rx="3" fill="#f5f0e8" transform="rotate(-2,38,142)"/>
+                  <rect x="38" y="142" width="88"  height="74" rx="3" fill="#f2edd5" transform="rotate(-2,38,142)"/>
+                  <line x1="127" y1="142" x2="125" y2="216" stroke="#d4c9a8" stroke-width="0.8" transform="rotate(-2,127,142)"/>
+                  <!-- left page handwritten lines -->
+                  <line x1="50" y1="160" x2="116" y2="158" stroke="#a09070" stroke-width="0.7" opacity="0.6" transform="rotate(-2,50,160)"/>
+                  <line x1="50" y1="171" x2="113" y2="169" stroke="#a09070" stroke-width="0.7" opacity="0.5" transform="rotate(-2,50,171)"/>
+                  <line x1="50" y1="182" x2="108" y2="180" stroke="#a09070" stroke-width="0.7" opacity="0.4" transform="rotate(-2,50,182)"/>
+                  <line x1="50" y1="193" x2="105" y2="191" stroke="#a09070" stroke-width="0.7" opacity="0.3" transform="rotate(-2,50,193)"/>
+                  <!-- right page mini bar chart -->
+                  <line x1="137" y1="197" x2="205" y2="197" stroke="#b0a080" stroke-width="0.6" opacity="0.5" transform="rotate(-2,137,197)"/>
+                  <rect x="141" y="184" width="10" height="13" fill="#c9a84c" opacity="0.28" transform="rotate(-2,141,184)"/>
+                  <rect x="157" y="174" width="10" height="23" fill="#c9a84c" opacity="0.38" transform="rotate(-2,157,174)"/>
+                  <rect x="173" y="163" width="10" height="34" fill="#c9a84c" opacity="0.52" transform="rotate(-2,173,163)"/>
+                  <rect x="189" y="155" width="10" height="42" fill="#c9a84c" opacity="0.7"  transform="rotate(-2,189,155)"/>
+                </g>
+                <!-- pen on notebook -->
+                <rect x="214" y="148" width="5" height="62" rx="2" fill="#2a2a2a" transform="rotate(-2,214,148)"/>
+                <rect x="214" y="148" width="5" height="12" rx="2" fill="#c9a84c"  transform="rotate(-2,214,148)"/>
+                <!-- person upper body (left, side-on, writing) -->
+                <path d="M0,225 L0,163 Q28,146 62,143 Q83,141 88,150 L88,225 Z" fill="#2a3848"/>
+                <!-- arm reaching toward notebook -->
+                <path d="M78,163 Q100,160 128,167 Q148,170 154,176" stroke="#d4956a" stroke-width="12" fill="none" stroke-linecap="round"/>
+                <ellipse cx="154" cy="177" rx="9" ry="6" fill="#d4956a" transform="rotate(-10,154,177)"/>
+                <!-- head (partial, side view) -->
+                <ellipse cx="53" cy="126" rx="28" ry="32" fill="#d4956a"/>
+                <ellipse cx="66" cy="130" rx="15" ry="22" fill="#a06030" opacity="0.22"/>
+                <path d="M25,120 Q27,88 53,86 Q79,88 81,120 Q77,98 53,95 Q29,98 25,120 Z" fill="#1a0f08"/>
+                <ellipse cx="81" cy="128" rx="8" ry="11" fill="#c07848"/>
+                <!-- vignette -->
+                <rect width="300" height="225" fill="url(#s2vg)"/>
               </svg>
             </div>
           </div>
@@ -820,26 +969,70 @@
         <div class="service-card">
           <div class="card-img-wrap">
             <div class="art-img" style="aspect-ratio:4/3;width:100%;">
+              <!-- Service 03: slash mom — home desk, laptop, baby toy, warm bokeh -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice">
-                <rect width="300" height="225" fill="#0a0a0a"/>
-                <!-- house body -->
-                <rect x="88" y="118" width="124" height="82" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
-                <!-- roof -->
-                <polyline points="78,118 150,52 222,118" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
-                <!-- door -->
-                <path d="M134,200 L134,160 Q134,148 150,148 Q166,148 166,160 L166,200" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.42"/>
-                <!-- windows -->
-                <rect x="98"  y="130" width="24" height="20" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
-                <rect x="178" y="130" width="24" height="20" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.35"/>
-                <!-- stem from roof peak -->
-                <line x1="150" y1="52" x2="150" y2="18" stroke="#c9a84c" stroke-width="1.1" opacity="0.6"/>
-                <!-- leaf left -->
-                <path d="M150,40 Q130,28 128,13 Q141,17 150,40" fill="#c9a84c" opacity="0.42"/>
-                <!-- leaf right -->
-                <path d="M150,32 Q170,20 172,5 Q159,9 150,32" fill="#c9a84c" opacity="0.58"/>
-                <!-- bud -->
-                <circle cx="150" cy="12" r="5.5" fill="#c9a84c" opacity="0.75"/>
-                <text x="150" y="216" text-anchor="middle" fill="#c9a84c" opacity="0.22" font-family="serif" font-size="8" letter-spacing="5">FAMILY</text>
+                <defs>
+                  <linearGradient id="s3bg" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#1c1810"/><stop offset="100%" stop-color="#100e08"/></linearGradient>
+                  <radialGradient id="s3win" cx="85%" cy="8%" r="52%"><stop offset="0%" stop-color="#d4b870" stop-opacity="0.45"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+                  <radialGradient id="s3vg" cx="50%" cy="50%" r="70%"><stop offset="30%" stop-color="transparent"/><stop offset="100%" stop-color="#0a0500" stop-opacity="0.62"/></radialGradient>
+                  <filter id="s3b6"><feGaussianBlur stdDeviation="6"/></filter>
+                  <filter id="s3b10"><feGaussianBlur stdDeviation="10"/></filter>
+                  <filter id="s3shdw"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0a0500" flood-opacity="0.42"/></filter>
+                </defs>
+                <!-- bg + table -->
+                <rect width="300" height="225" fill="url(#s3bg)"/>
+                <rect x="0" y="150" width="300" height="75" fill="#3e2810" opacity="0.9"/>
+                <rect x="0" y="150" width="300" height="3" fill="#5c3c18" opacity="0.8"/>
+                <!-- window light -->
+                <rect width="300" height="225" fill="url(#s3win)"/>
+                <!-- bokeh (warm home) -->
+                <circle cx="268" cy="38" r="32" fill="#e8c060" opacity="0.18" filter="url(#s3b10)"/>
+                <circle cx="28"  cy="55" r="22" fill="#c87030" opacity="0.14" filter="url(#s3b6)"/>
+                <circle cx="255" cy="195" r="26" fill="#d4a040" opacity="0.12" filter="url(#s3b10)"/>
+                <!-- laptop -->
+                <g filter="url(#s3shdw)">
+                  <rect x="88" y="108" width="132" height="86" rx="5" fill="#c8c8c6"/>
+                  <rect x="93" y="113" width="122" height="70" rx="3" fill="#0d1e2e"/>
+                  <rect x="93" y="113" width="122" height="70" rx="3" fill="#4a90b8" opacity="0.22"/>
+                  <!-- screen UI -->
+                  <rect x="102" y="121" width="68" height="9"  rx="2" fill="#c9a84c" opacity="0.75"/>
+                  <rect x="102" y="136" width="102" height="6" rx="1" fill="#6ab0d4" opacity="0.38"/>
+                  <rect x="102" y="148" width="86"  height="6" rx="1" fill="#6ab0d4" opacity="0.28"/>
+                  <rect x="102" y="160" width="58"  height="6" rx="1" fill="#6ab0d4" opacity="0.2"/>
+                  <rect x="86"  y="193" width="136" height="6" rx="2" fill="#b0b0ae"/>
+                </g>
+                <!-- baby milk bottle -->
+                <rect x="242" y="138" width="20" height="40" rx="7" fill="#f0e8f8" opacity="0.82" filter="url(#s3shdw)"/>
+                <rect x="246" y="130" width="12" height="11" rx="4" fill="#e0d8f0" opacity="0.78"/>
+                <rect x="249" y="127" width="6"  height="6"  rx="2" fill="#d0c8e8" opacity="0.7"/>
+                <rect x="243" y="162" width="18" height="16" rx="6" fill="#f8d0c0" opacity="0.45"/>
+                <!-- teddy bear toy (left of laptop) -->
+                <circle cx="65" cy="168" r="13" fill="#d4956a" opacity="0.72" filter="url(#s3shdw)"/>
+                <circle cx="57" cy="158" r="7"  fill="#d4956a" opacity="0.65"/>
+                <circle cx="73" cy="158" r="7"  fill="#d4956a" opacity="0.65"/>
+                <circle cx="62" cy="169" r="2"  fill="#1a0f08" opacity="0.7"/>
+                <circle cx="68" cy="169" r="2"  fill="#1a0f08" opacity="0.7"/>
+                <path d="M62,175 Q65,178 68,175" stroke="#1a0f08" stroke-width="1" fill="none" opacity="0.55"/>
+                <!-- mom upper body -->
+                <path d="M0,225 L0,162 Q24,146 56,143 Q76,141 82,150 L82,225 Z" fill="#8a6080"/>
+                <!-- neck -->
+                <rect x="36" y="114" width="26" height="36" rx="10" fill="#d4956a"/>
+                <!-- head -->
+                <ellipse cx="48" cy="97" rx="29" ry="33" fill="#d4956a"/>
+                <ellipse cx="60" cy="100" rx="15" ry="20" fill="#a06030" opacity="0.2"/>
+                <!-- hair (longer) -->
+                <path d="M19,90 Q21,58 48,56 Q75,58 77,90 Q73,64 48,61 Q23,64 19,90 Z" fill="#2a1808"/>
+                <path d="M19,90 Q17,112 21,132 Q23,142 30,144" stroke="#2a1808" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.9"/>
+                <!-- eyes -->
+                <ellipse cx="38" cy="98" rx="6" ry="4" fill="#fff8f0" opacity="0.85"/>
+                <ellipse cx="58" cy="98" rx="6" ry="4" fill="#fff8f0" opacity="0.85"/>
+                <circle  cx="39" cy="99" r="3"   fill="#2a1a08"/>
+                <circle  cx="59" cy="99" r="3"   fill="#2a1a08"/>
+                <circle  cx="40" cy="98" r="1.2" fill="#fff" opacity="0.7"/>
+                <circle  cx="60" cy="98" r="1.2" fill="#fff" opacity="0.7"/>
+                <ellipse cx="77" cy="108" rx="7" ry="10" fill="#c07848"/>
+                <!-- vignette -->
+                <rect width="300" height="225" fill="url(#s3vg)"/>
               </svg>
             </div>
           </div>
@@ -872,30 +1065,79 @@
       <div class="contact-grid">
         <div class="contact-img">
           <div class="art-img" style="aspect-ratio:1;width:100%;">
+            <!-- Contact: two hands over coffee + phone with LINE glow — warm connection scene -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
-              <rect width="400" height="400" fill="#111111"/>
-              <!-- left circle -->
-              <circle cx="158" cy="200" r="105" fill="#c9a84c" opacity="0.03"/>
-              <circle cx="158" cy="200" r="105" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
-              <!-- right circle -->
-              <circle cx="242" cy="200" r="105" fill="#c9a84c" opacity="0.03"/>
-              <circle cx="242" cy="200" r="105" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
-              <!-- intersection glow -->
-              <ellipse cx="200" cy="200" rx="34" ry="84" fill="#c9a84c" opacity="0.07"/>
-              <!-- outer rings (depth) -->
-              <circle cx="158" cy="200" r="118" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12"/>
-              <circle cx="242" cy="200" r="118" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.12"/>
-              <!-- intersection vertical -->
-              <line x1="200" y1="105" x2="200" y2="295" stroke="#c9a84c" stroke-width="0.5" opacity="0.22"/>
-              <!-- center spark -->
-              <circle cx="200" cy="200" r="5"  fill="#c9a84c" opacity="0.95"/>
-              <circle cx="200" cy="200" r="13" fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.5"/>
-              <circle cx="200" cy="200" r="24" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.24"/>
-              <!-- cross -->
-              <line x1="200" y1="184" x2="200" y2="216" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
-              <line x1="184" y1="200" x2="216" y2="200" stroke="#c9a84c" stroke-width="0.8" opacity="0.38"/>
-              <!-- label -->
-              <text x="200" y="375" text-anchor="middle" fill="#c9a84c" opacity="0.18" font-family="serif" font-size="10" letter-spacing="7">CONNECTION</text>
+              <defs>
+                <linearGradient id="ctbg" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#1c1508"/><stop offset="100%" stop-color="#0e0904"/></linearGradient>
+                <radialGradient id="cttl" cx="18%" cy="22%" r="55%"><stop offset="0%" stop-color="#c87830" stop-opacity="0.5"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+                <radialGradient id="cttr" cx="82%" cy="18%" r="50%"><stop offset="0%" stop-color="#d4a050" stop-opacity="0.3"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+                <radialGradient id="ctvg" cx="50%" cy="50%" r="70%"><stop offset="30%" stop-color="transparent"/><stop offset="100%" stop-color="#0a0500" stop-opacity="0.68"/></radialGradient>
+                <radialGradient id="lineglow" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#06c755" stop-opacity="0.38"/><stop offset="100%" stop-color="#0a2010" stop-opacity="0"/></radialGradient>
+                <filter id="ctb12"><feGaussianBlur stdDeviation="12"/></filter>
+                <filter id="ctb4"><feGaussianBlur stdDeviation="4"/></filter>
+                <filter id="ctshdw"><feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#0a0500" flood-opacity="0.6"/></filter>
+              </defs>
+              <!-- bg + table -->
+              <rect width="400" height="400" fill="url(#ctbg)"/>
+              <rect x="0" y="255" width="400" height="145" fill="#3e2810" opacity="0.85"/>
+              <rect x="0" y="255" width="400" height="3"   fill="#5c3c18" opacity="0.8"/>
+              <!-- ambient lights -->
+              <rect width="400" height="400" fill="url(#cttl)"/>
+              <rect width="400" height="400" fill="url(#cttr)"/>
+              <!-- bokeh -->
+              <circle cx="48"  cy="78"  r="44" fill="#c87030" opacity="0.2"  filter="url(#ctb12)"/>
+              <circle cx="352" cy="62"  r="38" fill="#d4a850" opacity="0.18" filter="url(#ctb12)"/>
+              <circle cx="28"  cy="330" r="36" fill="#c87030" opacity="0.12" filter="url(#ctb12)"/>
+              <circle cx="372" cy="358" r="40" fill="#d4a050" opacity="0.1"  filter="url(#ctb12)"/>
+              <circle cx="200" cy="28"  r="26" fill="#f0c060" opacity="0.1"  filter="url(#ctb12)"/>
+              <!-- phone (center, slight tilt) -->
+              <g filter="url(#ctshdw)">
+                <rect x="151" y="96" width="98" height="172" rx="14" fill="#1a1a1a" transform="rotate(-2,200,182)"/>
+                <rect x="159" y="108" width="82" height="148" rx="8"  fill="#0a1e14" transform="rotate(-2,200,182)"/>
+                <rect x="159" y="108" width="82" height="148" rx="8"  fill="url(#lineglow)" transform="rotate(-2,200,182)"/>
+                <!-- LINE header -->
+                <rect x="159" y="108" width="82" height="22" rx="8" fill="#06c755" opacity="0.85" transform="rotate(-2,200,182)"/>
+                <rect x="159" y="122" width="82" height="8"  fill="#06c755" opacity="0.55" transform="rotate(-2,200,182)"/>
+                <!-- incoming chat bubbles -->
+                <rect x="164" y="138" width="48" height="13" rx="6" fill="#fff" opacity="0.14" transform="rotate(-2,200,182)"/>
+                <rect x="164" y="157" width="38" height="13" rx="6" fill="#fff" opacity="0.11" transform="rotate(-2,200,182)"/>
+                <!-- sent chat bubbles -->
+                <rect x="188" y="176" width="49" height="13" rx="6" fill="#06c755" opacity="0.38" transform="rotate(-2,200,182)"/>
+                <rect x="196" y="196" width="40" height="13" rx="6" fill="#06c755" opacity="0.3"  transform="rotate(-2,200,182)"/>
+                <!-- more incoming -->
+                <rect x="164" y="216" width="52" height="13" rx="6" fill="#fff" opacity="0.1" transform="rotate(-2,200,182)"/>
+                <!-- home bar -->
+                <rect x="187" y="246" width="26" height="3" rx="2" fill="#fff" opacity="0.28" transform="rotate(-2,200,182)"/>
+              </g>
+              <!-- left coffee mug (top-view angle) -->
+              <g filter="url(#ctb4)" opacity="0.4">
+                <ellipse cx="88" cy="272" rx="30" ry="11" fill="#e8ddd0"/>
+              </g>
+              <ellipse cx="88" cy="267" rx="26" ry="10" fill="#f0e8e0"/>
+              <ellipse cx="88" cy="267" rx="22" ry="8"  fill="#d4b896"/>
+              <ellipse cx="88" cy="267" rx="17" ry="6"  fill="#8B5230"/>
+              <ellipse cx="88" cy="267" rx="13" ry="5"  fill="#6b3a18"/>
+              <path d="M62,267 L65,302 Q88,310 111,302 L114,267 Z" fill="#f5f0ec"/>
+              <path d="M62,267 L114,267" stroke="#d4c9b4" stroke-width="0.8"/>
+              <path d="M114,277 Q130,277 130,289 Q130,301 114,301" stroke="#d4c9b4" stroke-width="3" fill="none"/>
+              <!-- right coffee mug -->
+              <g filter="url(#ctb4)" opacity="0.4">
+                <ellipse cx="312" cy="272" rx="30" ry="11" fill="#e8ddd0"/>
+              </g>
+              <ellipse cx="312" cy="267" rx="26" ry="10" fill="#f0e8e0"/>
+              <ellipse cx="312" cy="267" rx="22" ry="8"  fill="#d4b896"/>
+              <ellipse cx="312" cy="267" rx="17" ry="6"  fill="#8B5230"/>
+              <ellipse cx="312" cy="267" rx="13" ry="5"  fill="#6b3a18"/>
+              <path d="M286,267 L289,302 Q312,310 335,302 L338,267 Z" fill="#f5f0ec"/>
+              <path d="M286,267 L338,267" stroke="#d4c9b4" stroke-width="0.8"/>
+              <path d="M286,277 Q270,277 270,289 Q270,301 286,301" stroke="#d4c9b4" stroke-width="3" fill="none"/>
+              <!-- two hands reaching toward phone from bottom corners -->
+              <path d="M0,400 Q40,348 102,298 Q132,280 150,270" stroke="#d4956a" stroke-width="22" fill="none" stroke-linecap="round"/>
+              <path d="M400,400 Q360,348 298,298 Q268,280 250,270" stroke="#c8834e" stroke-width="22" fill="none" stroke-linecap="round"/>
+              <ellipse cx="150" cy="267" rx="14" ry="10" fill="#d4956a" transform="rotate(-18,150,267)"/>
+              <ellipse cx="250" cy="267" rx="14" ry="10" fill="#c8834e" transform="rotate(18,250,267)"/>
+              <!-- vignette -->
+              <rect width="400" height="400" fill="url(#ctvg)"/>
             </svg>
           </div>
         </div>
