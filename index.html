@@ -566,6 +566,165 @@
       .btn-line { width: 100%; justify-content: center; }
     }
 
+    /* ── ESBI Section ── */
+    #esbi { background: var(--bg); padding: 8rem 0; }
+
+    .esbi-header { text-align: center; margin-bottom: 4rem; }
+
+    .esbi-intro {
+      font-family: -apple-system, sans-serif;
+      font-size: 0.88rem;
+      color: var(--muted-lt);
+      margin-top: 1rem;
+      letter-spacing: 0.03em;
+      line-height: 1.7;
+    }
+
+    .esbi-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .esbi-axis {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-family: -apple-system, sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .esbi-quad {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--divider);
+    }
+
+    .esbi-quad > div {
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border: 1px solid var(--divider);
+    }
+
+    .q-danger { background: rgba(160,40,40,0.055); }
+    .q-gold   { background: rgba(201,168,76,0.055); }
+
+    .q-letter {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 2.8rem;
+      font-weight: 400;
+      line-height: 1;
+    }
+    .q-danger .q-letter { color: #c05050; }
+    .q-gold   .q-letter { color: var(--gold); }
+
+    .q-title {
+      font-family: -apple-system, sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+
+    .q-sub {
+      font-family: -apple-system, sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .esbi-quad p {
+      font-family: -apple-system, sans-serif;
+      font-size: 0.78rem;
+      color: var(--muted-lt);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .q-badge {
+      display: inline-block;
+      font-family: -apple-system, sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c05050;
+      border: 1px solid rgba(160,40,40,0.4);
+      padding: 0.2rem 0.55rem;
+      align-self: flex-start;
+    }
+
+    .esbi-crisis {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .crisis-stat {
+      text-align: center;
+      padding: 2.25rem 1.5rem;
+      border: 1px solid rgba(160,40,40,0.3);
+      background: rgba(160,40,40,0.04);
+    }
+
+    .crisis-number {
+      display: block;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(3.5rem, 7vw, 5rem);
+      font-weight: 400;
+      color: #c05050;
+      line-height: 1;
+    }
+
+    .crisis-label {
+      display: block;
+      font-family: -apple-system, sans-serif;
+      font-size: 0.82rem;
+      color: var(--muted-lt);
+      margin-top: 0.6rem;
+      letter-spacing: 0.03em;
+    }
+
+    .crisis-questions { display: flex; flex-direction: column; gap: 0.85rem; }
+
+    .crisis-q {
+      font-family: -apple-system, sans-serif;
+      font-size: 0.86rem;
+      color: var(--muted-lt);
+      line-height: 1.7;
+      padding: 0.85rem 1rem;
+      border-left: 2px solid rgba(160,40,40,0.45);
+      background: rgba(160,40,40,0.03);
+    }
+    .crisis-q strong { color: var(--text); }
+
+    .crisis-bridge {
+      font-family: -apple-system, sans-serif;
+      font-size: 0.88rem;
+      color: var(--gold-lt);
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 1rem 1.5rem;
+      border: 1px solid var(--divider);
+    }
+
+    @media (max-width: 700px) {
+      .esbi-main { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+    @media (max-width: 640px) {
+      #esbi { padding: 4.5rem 0; }
+      .esbi-header { margin-bottom: 2.5rem; }
+      .esbi-quad > div { padding: 1rem; }
+      .q-letter { font-size: 2.1rem; }
+      .crisis-stat { padding: 1.5rem 1rem; }
+    }
+
     /* ── Footer ── */
     footer {
       background: var(--bg);
@@ -814,7 +973,83 @@
 
   <span class="section-divider"></span>
 
-  <!-- ③ Services -->
+  <!-- ③ ESBI Quadrant -->
+  <section id="esbi">
+    <div class="container">
+
+      <div class="esbi-header">
+        <span class="section-label">財務象限</span>
+        <span class="gold-rule center"></span>
+        <h2>你現在站在哪個象限？</h2>
+        <p class="esbi-intro">Robert Kiyosaki《富爸爸》現金流象限——大多數人從未意識到自己身陷其中</p>
+      </div>
+
+      <div class="esbi-main">
+
+        <div>
+          <div class="esbi-axis">
+            <span>← 靠自己的時間</span>
+            <span>讓系統工作 →</span>
+          </div>
+          <div class="esbi-quad">
+
+            <div class="q-danger">
+              <span class="q-letter">E</span>
+              <span class="q-title">受僱者</span>
+              <span class="q-sub">Employee</span>
+              <p>幫公司打工，用時間換薪水。停工一天，收入歸零。安全感是假的。</p>
+              <span class="q-badge">大多數人在這裡</span>
+            </div>
+
+            <div class="q-gold">
+              <span class="q-letter">B</span>
+              <span class="q-title">企業主</span>
+              <span class="q-sub">Business Owner</span>
+              <p>建立系統，讓別人和流程替你賺錢。你不在，生意照跑。</p>
+            </div>
+
+            <div class="q-danger">
+              <span class="q-letter">S</span>
+              <span class="q-title">自僱者</span>
+              <span class="q-sub">Self-employed</span>
+              <p>自己當老闆，卻也是最忙的員工。你就是瓶頸，無法真正放手。</p>
+            </div>
+
+            <div class="q-gold">
+              <span class="q-letter">I</span>
+              <span class="q-title">投資者</span>
+              <span class="q-sub">Investor</span>
+              <p>讓金錢為你工作，資產自動產生現金流。財務自由的終點站。</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="esbi-crisis">
+          <div class="crisis-stat">
+            <span class="crisis-number">90%</span>
+            <span class="crisis-label">的人一輩子活在 E 和 S 象限，從未突破</span>
+          </div>
+
+          <div class="crisis-questions">
+            <div class="crisis-q">❶ 你今天生病無法上班，<strong>收入會不會停？</strong></div>
+            <div class="crisis-q">❷ 你的薪資漲幅，<strong>跟得上物價通膨嗎？</strong></div>
+            <div class="crisis-q">❸ 一份薪水養四口，<strong>你還有多少風險緩衝？</strong></div>
+          </div>
+
+          <div class="crisis-bridge">副業，是從 E 走向 B 最低成本的第一步</div>
+
+          <a href="https://line.me/R/ti/g/uE53tGJEFZ" target="_blank" rel="noopener"
+             class="btn-primary" style="justify-content:center;">我要開始移動象限 →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <span class="section-divider"></span>
+
+  <!-- ④ Services -->
   <section id="services">
     <div class="container">
       <div class="services-header">
