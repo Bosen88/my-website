@@ -3,1095 +3,545 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MPCP 模擬器 — Bosen</title>
+  <title>左右開花 — 被動收入體驗</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0a0a0a; --bg2: #111; --bg3: #181818;
-      --gold: #c9a84c; --gold-lt: #e2c97e; --gold-dk: #9a7a30;
-      --text: #f0ece0; --muted: #8a8070; --muted-lt: #b0a898;
-      --divider: rgba(201,168,76,0.18);
-      --red: #c05050; --green: #4caf6a;
+      --bg:      #0a0a0a;
+      --bg2:     #111;
+      --bg3:     #181818;
+      --gold:    #c9a84c;
+      --gold-lt: #e2c97e;
+      --text:    #f0ece0;
+      --muted:   #8a8070;
+      --muted-lt:#b0a898;
+      --div:     rgba(201,168,76,0.18);
+      --green:   #4caf6a;
+      --red:     #c05050;
     }
     html, body { height: 100%; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif;
+      font-family: -apple-system, "Noto Sans TC", sans-serif;
       background: var(--bg); color: var(--text);
       -webkit-font-smoothing: antialiased;
+      display: flex; flex-direction: column;
+      min-height: 100vh;
     }
 
     /* ── NAV ── */
-    .sim-nav {
-      position: sticky; top: 0; z-index: 100;
+    nav {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0 1.25rem; height: 48px;
       background: rgba(10,10,10,0.94);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--divider);
-      display: flex; align-items: center;
-      padding: 0 1.25rem; height: 52px; gap: 1rem;
+      border-bottom: 1px solid var(--div);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(16px);
     }
-    .back-link {
-      color: var(--muted-lt); text-decoration: none;
-      font-size: 0.72rem; letter-spacing: 0.1em;
-      transition: color .2s; white-space: nowrap;
-    }
-    .back-link:hover { color: var(--gold); }
-    .sim-title {
-      font-size: 0.78rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--gold); flex: 1;
-    }
-    .tab-nav { display: flex; gap: 0.2rem; }
-    .tab-btn {
-      background: none; border: 1px solid transparent;
-      color: var(--muted); cursor: pointer;
-      font-size: 0.7rem; letter-spacing: 0.1em;
-      text-transform: uppercase; padding: 0.35rem 0.85rem;
-      transition: all .2s;
-    }
-    .tab-btn.active { border-color: var(--divider); color: var(--gold); }
-    .tab-btn:hover { color: var(--gold-lt); }
+    .back { color: var(--muted-lt); text-decoration: none; font-size: 0.72rem; letter-spacing: .1em; }
+    .back:hover { color: var(--gold); }
+    .nav-title { font-size: 0.78rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); flex: 1; }
 
-    /* ── TABS ── */
-    .sim-main { display: none; }
-    .sim-main.active { display: block; }
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2.5rem; padding: 0.7rem 1.25rem;
+      background: var(--bg2); border-bottom: 1px solid var(--div);
+    }
+    .stat { text-align: center; }
+    .stat-val { font-size: 1.3rem; font-weight: 400; color: var(--gold); line-height: 1; }
+    .stat-lbl { font-size: 0.6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
 
-    /* ════════════════════════════════
-       TAB 1 — SIMULATOR
-    ════════════════════════════════ */
-    .sim-body {
+    /* ── GAME BOARD ── */
+    .board {
+      flex: 1;
       display: grid;
-      grid-template-columns: 1fr 320px;
-      grid-template-rows: auto 1fr;
-      height: calc(100vh - 52px);
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      max-width: 640px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.25rem 1rem;
+      align-items: start;
+    }
+
+    /* ── SIDE ── */
+    .side { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+    .side-label {
+      font-size: 0.62rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    /* people grid */
+    .people {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 5px;
+      min-height: 44px; width: 100%;
+    }
+    .person {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg3); border: 1px solid var(--div);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      animation: popIn .25s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* tank */
+    .tank-outer {
+      position: relative;
+      width: 80px; height: 200px;
+      border: 1.5px solid var(--gold);
+      border-radius: 6px;
+      background: var(--bg3);
       overflow: hidden;
     }
-
-    /* scenario bar */
-    .scenario-bar {
-      grid-column: 1 / -1;
-      display: flex; align-items: center; gap: 0.6rem;
-      padding: 0.6rem 1.1rem;
-      border-bottom: 1px solid var(--divider);
-      background: var(--bg2); flex-wrap: wrap;
-    }
-    .scenario-label {
-      font-size: 0.62rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--muted);
-    }
-    .btn-sm {
-      background: none; border: 1px solid var(--divider);
-      color: var(--muted-lt); cursor: pointer;
-      font-size: 0.68rem; letter-spacing: 0.06em;
-      padding: 0.28rem 0.75rem; transition: all .2s;
-    }
-    .btn-sm:hover { border-color: var(--gold); color: var(--gold); }
-    .btn-sm.danger { border-color: rgba(192,80,80,0.35); color: var(--red); }
-    .btn-sm.danger:hover { border-color: var(--red); }
-    .btn-sm.week-btn { border-color: rgba(201,168,76,0.3); color: var(--gold); }
-
-    /* tree panel */
-    .tree-panel {
-      overflow: auto;
-      border-right: 1px solid var(--divider);
-      background: var(--bg); position: relative;
-    }
-    #tree-svg { display: block; min-width: 100%; }
-
-    /* detail panel */
-    .detail-panel {
-      display: flex; flex-direction: column;
-      overflow: hidden; background: var(--bg2);
-    }
-
-    .node-header {
-      padding: 0.9rem 1.1rem;
-      border-bottom: 1px solid var(--divider);
-      flex-shrink: 0;
-    }
-    .node-id-label {
-      font-size: 0.58rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 0.25rem;
-    }
-    .node-name-big { font-size: 0.95rem; color: var(--text); font-weight: 500; }
-    .node-status { font-size: 0.68rem; margin-top: 0.3rem; }
-    .ok  { color: var(--green); }
-    .err { color: var(--red); }
-
-    /* tanks */
-    .tanks-section {
-      padding: 0.9rem 1.1rem;
-      border-bottom: 1px solid var(--divider);
-      flex-shrink: 0;
-    }
-    .sec-label {
-      font-size: 0.58rem; letter-spacing: 0.16em;
-      text-transform: uppercase; color: var(--muted);
-      margin-bottom: 0.75rem;
-    }
-    .tank-row { margin-bottom: 1.4rem; }
-    .tank-meta {
-      display: flex; justify-content: space-between;
-      font-size: 0.7rem; color: var(--muted-lt);
-      margin-bottom: 0.3rem;
-    }
-    .tank-meta strong { color: var(--gold); }
-    .tank-wrap {
-      position: relative; height: 22px;
-      background: var(--bg3); border: 1px solid var(--divider);
-      overflow: visible; margin-bottom: 18px;
-    }
-    .tank-fill {
-      height: 100%; background: var(--gold);
-      transition: width 0.5s cubic-bezier(.4,0,.2,1);
-      max-width: 100%; position: relative; z-index: 1;
+    .tank-water {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, var(--gold) 0%, var(--gold-lt) 100%);
+      transition: height .7s cubic-bezier(.4,0,.2,1);
+      height: 0%;
     }
     .tank-val {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      font-size: 0.68rem; font-weight: 600;
-      color: var(--bg); z-index: 2; pointer-events: none;
-      mix-blend-mode: difference;
+      position: absolute; bottom: 6px; left: 0; right: 0;
+      text-align: center; font-size: 0.68rem; font-weight: 700;
+      color: var(--bg); z-index: 2; mix-blend-mode: multiply;
+      pointer-events: none;
     }
-    .tick {
-      position: absolute; top: 0; bottom: 0;
-      width: 1px; background: rgba(201,168,76,0.45); z-index: 3;
+    .tank-val.light { mix-blend-mode: normal; color: var(--gold); }
+    /* threshold marks */
+    .t-mark {
+      position: absolute; left: 0; right: 0;
+      height: 1px; background: rgba(255,255,255,0.2);
+      z-index: 3;
     }
-    .tick-top {
-      position: absolute; top: -14px;
-      font-size: 0.5rem; color: var(--muted);
-      transform: translateX(-50%); white-space: nowrap;
+    .t-mark-lbl {
+      position: absolute; right: 4px;
+      font-size: 0.45rem; color: rgba(255,255,255,0.4);
+      z-index: 4; transform: translateY(-8px);
     }
-    .tick-bot {
-      position: absolute; bottom: -16px;
-      font-size: 0.5rem; color: var(--gold);
-      transform: translateX(-50%); white-space: nowrap;
-    }
-    .tier-paid-dot {
-      display: inline-block; width: 8px; height: 8px;
-      border-radius: 50%; background: var(--gold);
-      margin-right: 3px; vertical-align: middle;
-    }
+    .t-mark.paid { background: rgba(201,168,76,0.7); }
 
-    /* earnings box */
-    .earnings-box {
-      margin: 0 1.1rem 0.9rem;
-      padding: 0.7rem 0.9rem;
-      border: 1px solid var(--divider);
-      background: rgba(201,168,76,0.04);
-      flex-shrink: 0;
+    /* tier badges below tank */
+    .tier-badges {
+      display: flex; gap: 4px; flex-wrap: wrap; justify-content: center;
+      min-height: 18px;
     }
-    .earn-label { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-    .earn-usd { font-size: 1.4rem; font-weight: 400; color: var(--gold); line-height: 1.1; }
-    .earn-ntd { font-size: 0.7rem; color: var(--muted-lt); margin-top: 0.15rem; }
+    .badge {
+      font-size: 0.5rem; padding: 2px 5px;
+      border: 1px solid var(--div); color: var(--muted);
+      letter-spacing: .1em; text-transform: uppercase;
+      transition: all .3s;
+    }
+    .badge.paid { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); }
 
-    /* controls */
-    .ctrl-section {
-      padding: 0.75rem 1.1rem;
-      border-bottom: 1px solid var(--divider);
-      flex-shrink: 0;
+    /* recruit button */
+    .btn-recruit {
+      width: 100%;
+      background: none; border: 1px solid var(--div);
+      color: var(--muted-lt); cursor: pointer;
+      font-size: 0.78rem; letter-spacing: .08em;
+      padding: 0.55rem 0; transition: all .2s;
     }
-    .ctrl-row { display: flex; gap: 0.4rem; margin-top: 0.5rem; }
-    .ctrl-input {
-      flex: 1; background: var(--bg3);
-      border: 1px solid var(--divider);
-      color: var(--text); padding: 0.35rem 0.55rem;
-      font-size: 0.8rem; outline: none;
+    .btn-recruit:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-recruit:active { background: rgba(201,168,76,0.08); }
+
+    /* ── CENTER ── */
+    .center {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1rem;
+      padding: 0 0.75rem;
+      padding-top: 120px; /* push down to align with tanks */
     }
-    .ctrl-input:focus { border-color: var(--gold); }
-    .ctrl-select {
-      background: var(--bg3); border: 1px solid var(--divider);
-      color: var(--muted-lt); padding: 0.35rem 0.4rem;
-      font-size: 0.72rem; outline: none;
+    .target-box {
+      text-align: center; padding: 0.75rem 0.6rem;
+      border: 1px solid var(--div); background: var(--bg2);
+      min-width: 80px;
     }
-    .btn-gold {
+    .target-box .lbl { font-size: 0.52rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .target-box .val { font-size: 1rem; color: var(--gold); font-weight: 400; margin: 3px 0; }
+    .target-box .reward { font-size: 0.62rem; color: var(--green); }
+
+    .vs { font-size: 0.55rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+    .btn-week {
+      width: 100%;
       background: var(--gold); color: var(--bg);
       border: none; cursor: pointer;
-      font-size: 0.7rem; letter-spacing: 0.06em;
-      padding: 0.35rem 0.85rem; font-weight: 600;
-      transition: background .2s; white-space: nowrap;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: .1em; padding: 0.65rem 0;
+      transition: background .2s;
     }
-    .btn-gold:hover { background: var(--gold-lt); }
+    .btn-week:hover { background: var(--gold-lt); }
+    .btn-fast {
+      width: 100%;
+      background: none; border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold); cursor: pointer;
+      font-size: 0.68rem; letter-spacing: .1em;
+      padding: 0.45rem 0; transition: all .2s;
+    }
+    .btn-fast:hover { background: rgba(201,168,76,0.07); }
 
-    /* log */
-    .log-section {
-      flex: 1; overflow-y: auto;
-      padding: 0.75rem 1.1rem;
+    /* ── PAYOUT LOG ── */
+    .log-wrap {
+      max-width: 640px; width: 100%; margin: 0 auto;
+      padding: 0 1rem 1.5rem;
     }
+    .log-title { font-size: 0.58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    .log-list { display: flex; flex-direction: column; gap: 0; }
     .log-item {
-      font-size: 0.72rem; padding: 0.3rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      line-height: 1.5; color: var(--muted-lt);
-    }
-    .log-item.payout  { color: var(--gold); }
-    .log-item.flush   { color: var(--gold-lt); background: rgba(201,168,76,0.05); padding: 0.3rem 0.4rem; }
-    .log-item.qualify { color: var(--green); }
-    .log-item.warning { color: var(--red); }
-
-    /* SVG styles */
-    .n-circle {
-      fill: var(--bg3);
-      stroke: var(--divider);
-      stroke-width: 1.5;
-      cursor: pointer;
-      transition: fill .2s, stroke .2s, stroke-width .2s;
-    }
-    .n-circle.qualified  { stroke: var(--gold); }
-    .n-circle.selected   { stroke: var(--gold-lt); stroke-width: 2.5; fill: rgba(201,168,76,0.12); }
-    .n-circle.unqualified{ stroke: rgba(192,80,80,0.6); }
-    .n-circle:hover      { fill: rgba(201,168,76,0.07); }
-    .n-text {
-      fill: var(--text); font-size: 10px; text-anchor: middle;
-      dominant-baseline: middle; pointer-events: none;
-      font-family: -apple-system, sans-serif;
-    }
-    .n-sub {
-      fill: var(--muted); font-size: 8.5px; text-anchor: middle;
-      pointer-events: none; font-family: -apple-system, sans-serif;
-    }
-    .e-line { stroke: var(--divider); stroke-width: 1; fill: none; }
-    .e-lbl  { fill: var(--muted); font-size: 9px; font-family: sans-serif; }
-    @keyframes pulse {
-      0%,100% { stroke: var(--gold);    stroke-width: 2; }
-      50%      { stroke: var(--gold-lt); stroke-width: 5; }
-    }
-    .pulsing { animation: pulse 0.7s ease 3; }
-
-    /* ════════════════════════════════
-       TAB 2 — ANNUITY
-    ════════════════════════════════ */
-    .inner { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem; }
-    .page-h { font-size: 1.5rem; font-weight: 400; letter-spacing: 0.02em; margin-bottom: 0.4rem; }
-    .page-sub { font-size: 0.85rem; color: var(--muted-lt); line-height: 1.7; margin-bottom: 2rem; }
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 1.5rem; }
-    .field { display: flex; flex-direction: column; gap: 0.35rem; }
-    .field label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-    .field input {
-      background: var(--bg2); border: 1px solid var(--divider);
-      color: var(--text); padding: 0.55rem 0.75rem;
-      font-size: 0.9rem; outline: none; width: 100%;
-    }
-    .field input:focus { border-color: var(--gold); }
-    .results-box {
-      background: var(--bg2); border: 1px solid var(--divider);
-      padding: 1.25rem;
-    }
-    .res-row {
+      font-size: 0.75rem; color: var(--muted-lt);
+      padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
       display: flex; justify-content: space-between;
-      align-items: baseline; padding: 0.5rem 0;
-      border-bottom: 1px solid var(--divider);
-      font-size: 0.84rem;
     }
-    .res-row:last-child { border-bottom: none; }
-    .res-k { color: var(--muted-lt); }
-    .res-v { font-weight: 600; color: var(--gold); }
-    .res-v.good { color: var(--green); }
-    .res-v.warn { color: var(--red); }
-    .res-v.big  { font-size: 1.1rem; }
+    .log-item .amt { color: var(--gold); font-weight: 600; }
+    .log-empty { font-size: 0.75rem; color: var(--muted); font-style: italic; }
 
-    /* ════════════════════════════════
-       TAB 3 — COMPARE
-    ════════════════════════════════ */
-    .cmp-table {
-      border: 1px solid var(--divider);
-      margin-top: 1.5rem;
+    /* ── HOW TO HINT ── */
+    .hint {
+      max-width: 640px; width: 100%; margin: 0 auto 0;
+      padding: 0 1rem 0.5rem;
+      font-size: 0.72rem; color: var(--muted);
+      line-height: 1.6; text-align: center;
     }
-    .cmp-row { display: grid; grid-template-columns: 180px 1fr 1fr; }
-    .cmp-row + .cmp-row { border-top: 1px solid var(--divider); }
-    .cmp-cell { padding: 0.75rem 1rem; border-right: 1px solid var(--divider); font-size: 0.82rem; }
-    .cmp-cell:last-child { border-right: none; }
-    .cmp-feat { color: var(--muted-lt); font-size: 0.78rem; }
-    .cmp-mpcp { background: rgba(201,168,76,0.04); }
-    .cmp-away { background: rgba(160,40,40,0.03); }
-    .cmp-head { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; }
-    .cmp-mpcp .cmp-head { color: var(--gold); }
-    .cmp-away .cmp-head { color: var(--red); }
-    .good { color: var(--green); }
-    .bad  { color: var(--red); }
 
-    .scene-box {
-      margin-top: 2rem; padding: 1.25rem;
-      border: 1px solid var(--divider); background: var(--bg2);
+    /* ── CELEBRATE OVERLAY ── */
+    #celebrate {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; z-index: 999;
+      opacity: 0; transition: opacity .2s;
     }
-    .scene-box h3 {
-      font-size: 0.62rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 1rem;
+    #celebrate .bubble {
+      background: var(--bg2);
+      border: 2px solid var(--gold);
+      padding: 1.25rem 2rem;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(201,168,76,0.3);
+      transform: scale(0.8);
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
     }
-    .flow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .flow-side h4 { font-size: 0.75rem; color: var(--muted-lt); margin-bottom: 0.75rem; font-weight: 600; }
-    .flow-vis { display: flex; flex-direction: column; gap: 0.35rem; }
-    .flow-node {
-      padding: 0.4rem 0.75rem; border: 1px solid;
-      font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem;
-    }
-    .flow-arrow { text-align: center; color: var(--muted); font-size: 0.8rem; }
-    .flow-note { font-size: 0.75rem; color: var(--muted-lt); line-height: 1.7; margin-top: 0.75rem; }
+    #celebrate.show { opacity: 1; }
+    #celebrate.show .bubble { transform: scale(1); }
+    .celebrate-emoji { font-size: 2.5rem; line-height: 1; }
+    .celebrate-ntd { font-size: 1.4rem; font-weight: 400; color: var(--gold); margin-top: 0.3rem; }
+    .celebrate-label { font-size: 0.7rem; color: var(--muted-lt); letter-spacing: .08em; margin-top: 0.15rem; }
 
-    /* responsive */
-    @media (max-width: 700px) {
-      .sim-body { grid-template-columns: 1fr; grid-template-rows: auto 360px 1fr; }
-      .tree-panel { height: 360px; border-right: none; border-bottom: 1px solid var(--divider); }
-      .grid2 { grid-template-columns: 1fr; }
-      .cmp-row { grid-template-columns: 1fr; }
-      .flow-grid { grid-template-columns: 1fr; }
-      .tab-btn { padding: 0.3rem 0.55rem; font-size: 0.63rem; }
+    /* ── RESET ── */
+    .reset-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.65rem; letter-spacing: .1em;
+      color: var(--muted); text-decoration: underline; text-underline-offset: 3px;
+      padding: 0.4rem;
+    }
+    .reset-btn:hover { color: var(--red); }
+
+    @media (max-width: 400px) {
+      .tank-outer { width: 68px; height: 180px; }
+      .board { padding: 1rem 0.5rem; }
     }
   </style>
 </head>
 <body>
 
-<nav class="sim-nav">
-  <a href="/" class="back-link">← 首頁</a>
-  <span class="sim-title">MPCP 模擬器</span>
-  <div class="tab-nav">
-    <button class="tab-btn active" data-tab="simulator">模擬器</button>
-    <button class="tab-btn" data-tab="annuity">購物年金</button>
-    <button class="tab-btn" data-tab="compare">制度對比</button>
-  </div>
+<nav>
+  <a href="/" class="back">← 返回</a>
+  <span class="nav-title">左右開花</span>
+  <button class="reset-btn" onclick="reset()">重新開始</button>
 </nav>
 
-<!-- ══════════════════════ TAB 1: SIMULATOR ══════════════════════ -->
-<div id="tab-simulator" class="sim-main active">
-  <div class="sim-body">
-
-    <div class="scenario-bar">
-      <span class="scenario-label">快速劇本</span>
-      <button class="btn-sm" onclick="runScenario('synergy')">① 命運共同體</button>
-      <button class="btn-sm" onclick="runScenario('annuity')">② 購物年金複利</button>
-      <button class="btn-sm" onclick="runScenario('ulo')">③ ULO 創作者</button>
-      <span style="flex:1"></span>
-      <button class="btn-sm week-btn" onclick="simWeek()">▶ 模擬下一週</button>
-      <button class="btn-sm danger" onclick="resetSim()">重置</button>
-    </div>
-
-    <!-- tree -->
-    <div class="tree-panel" id="tree-panel">
-      <svg id="tree-svg"><g id="g-edges"></g><g id="g-nodes"></g></svg>
-    </div>
-
-    <!-- detail -->
-    <div class="detail-panel">
-
-      <div class="node-header">
-        <div class="node-id-label" id="d-id">— 點擊樹上節點查看詳情 —</div>
-        <div class="node-name-big" id="d-name">BDC</div>
-        <div class="node-status" id="d-status"></div>
-      </div>
-
-      <div class="tanks-section">
-        <div class="sec-label">BV 業績銀行</div>
-        <div class="tank-row">
-          <div class="tank-meta"><span>左邊銀行</span><strong id="lv">0</strong></div>
-          <div class="tank-wrap" id="tw-l">
-            <div class="tank-fill" id="tf-l" style="width:0%"></div>
-            <span class="tank-val" id="tv-l">0</span>
-          </div>
-        </div>
-        <div class="tank-row">
-          <div class="tank-meta"><span>右邊銀行</span><strong id="rv">0</strong></div>
-          <div class="tank-wrap" id="tw-r">
-            <div class="tank-fill" id="tf-r" style="width:0%"></div>
-            <span class="tank-val" id="tv-r">0</span>
-          </div>
-        </div>
-        <div id="tier-dots" style="font-size:0.7rem;color:var(--muted-lt);min-height:18px;"></div>
-      </div>
-
-      <div class="earnings-box">
-        <div class="earn-label">本 BDC 累計佣金</div>
-        <div class="earn-usd" id="earn-usd">$0 USD</div>
-        <div class="earn-ntd" id="earn-ntd">≈ NT$0</div>
-      </div>
-
-      <div class="ctrl-section">
-        <div class="sec-label" style="margin-bottom:0">加入業績（手動）</div>
-        <div class="ctrl-row">
-          <input class="ctrl-input" type="number" id="bv-amt" value="500" min="1" placeholder="BV">
-          <select class="ctrl-select" id="bv-side">
-            <option value="left">→ 左</option>
-            <option value="right">→ 右</option>
-          </select>
-          <button class="btn-gold" onclick="addManual()">加入</button>
-        </div>
-      </div>
-
-      <div class="ctrl-section">
-        <div class="sec-label" style="margin-bottom:0">新增夥伴至選取節點下</div>
-        <div class="ctrl-row">
-          <input class="ctrl-input" type="text" id="new-name" placeholder="夥伴名稱" value="">
-          <button class="btn-sm" onclick="addChild('left')"  style="white-space:nowrap">+ 左</button>
-          <button class="btn-sm" onclick="addChild('right')" style="white-space:nowrap">+ 右</button>
-        </div>
-      </div>
-
-      <div class="log-section">
-        <div class="sec-label">事件紀錄</div>
-        <div id="log"></div>
-      </div>
-
-    </div><!-- /detail-panel -->
-  </div><!-- /sim-body -->
-</div>
-
-<!-- ══════════════════════ TAB 2: ANNUITY ══════════════════════ -->
-<div id="tab-annuity" class="sim-main">
-  <div class="inner">
-    <h2 class="page-h">購物年金計算機</h2>
-    <p class="page-sub">輸入你的組織規模與每人月消費，計算被動業績與預估佣金。轉移消費，讓日常花費產生複利效果。</p>
-
-    <div class="grid2">
-      <div class="field">
-        <label>每人月消費（美安專屬產品）USD</label>
-        <input type="number" id="a-exc" value="150" oninput="calcAnnuity()">
-      </div>
-      <div class="field">
-        <label>BV 換算係數（$1 ≈ ? BV）</label>
-        <input type="number" id="a-bvf" value="0.6" step="0.05" oninput="calcAnnuity()">
-      </div>
-      <div class="field">
-        <label>每人月消費（Shop.com 夥伴商店）USD</label>
-        <input type="number" id="a-par" value="200" oninput="calcAnnuity()">
-      </div>
-      <div class="field">
-        <label>IBV 換算係數（$1 ≈ ? IBV）</label>
-        <input type="number" id="a-ibvf" value="0.05" step="0.01" oninput="calcAnnuity()">
-      </div>
-      <div class="field">
-        <label>左邊組織人數</label>
-        <input type="number" id="a-lc" value="8" oninput="calcAnnuity()">
-      </div>
-      <div class="field">
-        <label>右邊組織人數</label>
-        <input type="number" id="a-rc" value="8" oninput="calcAnnuity()">
-      </div>
-    </div>
-
-    <div class="results-box" id="annuity-results"></div>
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-val" id="s-week">1</div>
+    <div class="stat-lbl">第幾週</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" id="s-earn">NT$0</div>
+    <div class="stat-lbl">累計收入</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" id="s-ppl">0 人</div>
+    <div class="stat-lbl">總夥伴數</div>
   </div>
 </div>
 
-<!-- ══════════════════════ TAB 3: COMPARE ══════════════════════ -->
-<div id="tab-compare" class="sim-main">
-  <div class="inner">
-    <h2 class="page-h">制度對比：MPCP vs 脫離制</h2>
-    <p class="page-sub">與傳統多層次傳銷「脫離制」（以安麗為代表）的核心結構差異，協助你在介紹時清楚說明優勢。</p>
+<!-- Game board -->
+<div class="board">
 
-    <div class="cmp-table">
-      <div class="cmp-row">
-        <div class="cmp-cell cmp-feat"></div>
-        <div class="cmp-cell cmp-mpcp"><span class="cmp-head">美安 MPCP（垂直制）</span></div>
-        <div class="cmp-cell cmp-away"><span class="cmp-head">傳統脫離制（安麗等）</span></div>
-      </div>
-      <div class="cmp-row">
-        <div class="cmp-cell cmp-feat">組織結構</div>
-        <div class="cmp-cell cmp-mpcp"><span class="good">✓</span> 二元樹，強制垂直安置</div>
-        <div class="cmp-cell cmp-away">太陽線，第一代可無限擴展</div>
-      </div>
-      <div class="cmp-row">
-        <div class="cmp-cell cmp-feat">業績流向</div>
-        <div class="cmp-cell cmp-mpcp"><span class="good">✓</span> 下線業績 100% 無限代上傳</div>
-        <div class="cmp-cell cmp-away"><span class="bad">✗</span> 下線達標後業績「脫離」，上線收不到差額</div>
-      </div>
-      <div class="cmp-row">
-        <div class="cmp-cell cmp-feat">利益方向</div>
-        <div class="cmp-cell cmp-mpcp"><span class="good">✓</span> 下線越強，上線領越多，完全一致</div>
-        <div class="cmp-cell cmp-away"><span class="bad">✗</span> 下線超越上線比率，上線可能 0 獎金</div>
-      </div>
-      <div class="cmp-row">
-        <div class="cmp-cell cmp-feat">月底歸零</div>
-        <div class="cmp-cell cmp-mpcp"><span class="good">✓</span> 達 5000/5000 前業績保留不歸零</div>
-        <div class="cmp-cell cmp-away"><span class="bad">✗</span> 每月月底強制歸零，重新累積</div>
-      </div>
-      <div class="cmp-row">
-        <div class="cmp-cell cmp-feat">零售導向</div>
-        <div class="cmp-cell cmp-mpcp"><span class="good">✓</span> 購物年金：消費即累積，不靠招募</div>
-        <div class="cmp-cell cmp-away">重點在組織擴展，產品零售較弱</div>
-      </div>
-      <div class="cmp-row">
-        <div class="cmp-cell cmp-feat">單 BDC 週薪上限</div>
-        <div class="cmp-cell cmp-mpcp"><strong style="color:var(--gold)">$3,600 USD</strong>（BV+IBV+管理獎金）</div>
-        <div class="cmp-cell cmp-away">依制度，無明確上限但受脫離架構壓縮</div>
-      </div>
+  <!-- LEFT SIDE -->
+  <div class="side">
+    <div class="side-label">左邊</div>
+    <div class="people" id="left-ppl"></div>
+    <div class="tank-outer" id="left-tank">
+      <div class="tank-water" id="left-water"></div>
+      <div class="tank-val light" id="left-pts">0</div>
     </div>
+    <div class="tier-badges" id="left-badges"></div>
+    <button class="btn-recruit" onclick="recruit('left')">＋ 加入左邊</button>
+  </div>
 
-    <div class="scene-box">
-      <h3>情境：你的強力下線 A 產生 20,000 BV，業績如何流動？</h3>
-      <div class="flow-grid">
-        <div class="flow-side">
-          <h4>MPCP（美安）</h4>
-          <div class="flow-vis">
-            <div class="flow-node" style="border-color:var(--gold);color:var(--gold)">你（BDC-001）左邊銀行</div>
-            <div class="flow-arrow">↑ 100% 流入</div>
-            <div class="flow-node" style="border-color:var(--divider);color:var(--muted-lt)">下線 A（BDC-002）</div>
-            <div class="flow-arrow">↑ A 產生 20,000 BV</div>
-            <div class="flow-node" style="border-color:var(--divider);color:var(--muted-lt)">A 的下線組織</div>
-          </div>
-          <div class="flow-note">不管 A 多強，20,000 BV 永遠在你的左邊銀行等待。你只需開發右邊，就能兌現。</div>
-        </div>
-        <div class="flow-side">
-          <h4>脫離制（安麗）</h4>
-          <div class="flow-vis">
-            <div class="flow-node" style="border-color:rgba(192,80,80,0.4);color:var(--red)">你 ← 可能 $0 差額</div>
-            <div class="flow-arrow" style="color:var(--red)">↑ A 已脫離，業績繞過你</div>
-            <div class="flow-node" style="border-color:rgba(192,80,80,0.4);color:var(--red)">下線 A（已達最高等級）</div>
-            <div class="flow-arrow">↑ A 產生 20,000 BV</div>
-            <div class="flow-node" style="border-color:var(--divider);color:var(--muted-lt)">A 的下線組織</div>
-          </div>
-          <div class="flow-note">A 達最高獎金比率後「脫離」。你若無其他小組業績，A 的 20,000 BV 你可能分不到。</div>
-        </div>
-      </div>
+  <!-- CENTER -->
+  <div class="center">
+    <div class="target-box">
+      <div class="lbl">目標</div>
+      <div class="val" id="c-target">1,200</div>
+      <div class="reward" id="c-reward">+NT$9,500</div>
     </div>
+    <div class="vs">兩邊<br>同時<br>到達</div>
+    <button class="btn-week" onclick="nextWeek()">▶<br>下一週</button>
+    <button class="btn-fast" onclick="fastFwd()">▶▶ 快轉<br>10 週</button>
+  </div>
 
+  <!-- RIGHT SIDE -->
+  <div class="side">
+    <div class="side-label">右邊</div>
+    <div class="people" id="right-ppl"></div>
+    <div class="tank-outer" id="right-tank">
+      <div class="tank-water" id="right-water"></div>
+      <div class="tank-val light" id="right-pts">0</div>
+    </div>
+    <div class="tier-badges" id="right-badges"></div>
+    <button class="btn-recruit" onclick="recruit('right')">＋ 加入右邊</button>
+  </div>
+
+</div>
+
+<!-- Hint -->
+<div class="hint" id="hint-text">
+  招募夥伴後，每週自動累積業績。<br>
+  <strong style="color:var(--gold-lt)">兩邊同時達標才能領收入</strong>——這就是「左右開花」的關鍵。
+</div>
+
+<!-- Log -->
+<div class="log-wrap">
+  <div class="log-title">收入紀錄</div>
+  <div class="log-list" id="log"><div class="log-empty">還沒有收入，快去招募夥伴吧！</div></div>
+</div>
+
+<!-- Celebrate overlay -->
+<div id="celebrate">
+  <div class="bubble">
+    <div class="celebrate-emoji" id="cel-emoji">💰</div>
+    <div class="celebrate-ntd"  id="cel-ntd">+NT$9,500</div>
+    <div class="celebrate-label" id="cel-lbl">兩邊同時達標，收入解鎖！</div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════
-// CONSTANTS
-// ═══════════════════════════════════════════════
-const TIERS    = [1200, 2400, 3600, 5000];
-const PAYOUTS  = [300, 300, 300, 600];   // USD per tier
-const USD_NTD  = 32;
-const NODE_R   = 28;
-const ROW_H    = 100;
+// ── CONSTANTS ──────────────────────────────────
+const PTS_PER_PERSON = 200;   // pts each person generates per week
+const MAX_PTS        = 5000;  // tank max (for display scaling)
 
-// ═══════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════
-let S = {
-  nodes: [],
-  nextId: 1,
-  selectedId: null,
-  log: [],
-  partnerIdx: 0,    // for auto-naming
-  weekBVLeft: 0,    // BV per side per simulated week
-  weekBVRight: 0,
-};
+const TIERS = [
+  { pts: 1200, ntd: 9500,  emoji: '🥉', label: '首次達標！'    },
+  { pts: 2400, ntd: 9500,  emoji: '🥈', label: '二度達標！'    },
+  { pts: 3600, ntd: 9500,  emoji: '🥇', label: '三度達標！'    },
+  { pts: 5000, ntd: 19000, emoji: '🏆', label: '滿額！下輪開始', flush: true },
+];
 
-// ═══════════════════════════════════════════════
-// NODE HELPERS
-// ═══════════════════════════════════════════════
-function mkNode(name, parentId, pos, qualified = false) {
+const PEOPLE_EMOJI = ['😊','🙋','🧑','👩','👨','👦','👧','🧔','👱','🤝','💼','✨'];
+
+// ── STATE ──────────────────────────────────────
+let G = {};
+
+function mkState() {
   return {
-    id: S.nextId++,
-    name,
-    parentId,
-    pos,          // 'left' | 'right' | null
-    bvL: 0,       // left bank
-    bvR: 0,       // right bank
-    pbv: 0,       // personal BV (for 200 activation)
-    qualified,
+    week: 1,
+    lPpl: 0, rPpl: 0,
+    lPts: 0, rPts: 0,
     tiers: [false,false,false,false],
-    earnings: 0,
+    totalNTD: 0,
+    log: [],
   };
 }
 
-function find(id) { return S.nodes.find(n => n.id === id); }
-
-function ancestors(nodeId) {
-  // returns [{node, childPos}] from immediate parent → root
-  const path = [];
-  let n = find(nodeId);
-  while (n && n.parentId != null) {
-    const p = find(n.parentId);
-    if (!p) break;
-    path.push({ node: p, childPos: n.pos });
-    n = p;
-  }
-  return path;
-}
-
-// ═══════════════════════════════════════════════
-// INIT / RESET
-// ═══════════════════════════════════════════════
-function initSim() {
-  S = { nodes: [], nextId: 1, selectedId: null, log: [], partnerIdx: 0, weekBVLeft: 0, weekBVRight: 0 };
-  const root = mkNode('BDC-001（我）', null, null, true);
-  const l    = mkNode('BDC-002',       root.id, 'left',  false);
-  const r    = mkNode('BDC-003',       root.id, 'right', false);
-  S.nodes.push(root, l, r);
-  S.selectedId = root.id;
-  addLog('系統初始化。黃金三角 BDC-001 / 002 / 003 已建立。', 'info');
-  addLog('點選左側節點查看詳情，或選擇上方快速劇本開始演示。', 'info');
+// ── ACTIONS ────────────────────────────────────
+function recruit(side) {
+  if (side === 'left')  G.lPpl++;
+  else                  G.rPpl++;
   render();
-  calcAnnuity();
+  updateHint();
 }
 
-function resetSim() { initSim(); }
-
-// ═══════════════════════════════════════════════
-// BV PROPAGATION
-// ═══════════════════════════════════════════════
-// addBV: add bv to nodeId's left or right bank, propagate upward
-function addBV(nodeId, amount, side) {
-  const node = find(nodeId);
-  if (!node) return;
-
-  // Track personal BV (for qualification logic)
-  node.pbv += amount;
-  if (!node.qualified && node.pbv >= 200) {
-    node.qualified = true;
-    addLog(`✅ ${node.name} 累積 200 PBV，資格正式啟動！`, 'qualify');
-  }
-  if (!node.qualified) {
-    addLog(`⚠ ${node.name} 未達 200 PBV，業績無法累積至銀行`, 'warning');
-    render(); return;
-  }
-
-  // Add to this node's bank
-  if (side === 'left')  node.bvL += amount;
-  else                  node.bvR += amount;
-  checkTiers(node);
-
-  // Propagate upward
-  for (const { node: anc, childPos } of ancestors(nodeId)) {
-    if (!anc.qualified) continue;
-    if (childPos === 'left') anc.bvL += amount;
-    else                     anc.bvR += amount;
-    checkTiers(anc);
-  }
-
+function nextWeek() {
+  G.week++;
+  G.lPts = Math.min(G.lPts + G.lPpl * PTS_PER_PERSON, MAX_PTS * 2);
+  G.rPts = Math.min(G.rPts + G.rPpl * PTS_PER_PERSON, MAX_PTS * 2);
+  checkTiers();
   render();
 }
 
-// ═══════════════════════════════════════════════
-// TIER CHECK
-// ═══════════════════════════════════════════════
-function checkTiers(node) {
-  const min = Math.min(node.bvL, node.bvR);
-  for (let i = 0; i < TIERS.length; i++) {
-    if (!node.tiers[i] && min >= TIERS[i]) {
-      node.tiers[i] = true;
-      const usd = PAYOUTS[i];
-      node.earnings += usd;
+function fastFwd() {
+  for (let i = 0; i < 10; i++) {
+    G.week++;
+    G.lPts = Math.min(G.lPts + G.lPpl * PTS_PER_PERSON, MAX_PTS * 2);
+    G.rPts = Math.min(G.rPts + G.rPpl * PTS_PER_PERSON, MAX_PTS * 2);
+    checkTiers();
+  }
+  render();
+}
 
-      if (i < 3) {
-        addLog(`💰 ${node.name} 觸發第 ${i+1} 階（${TIERS[i]}/${TIERS[i]} BV）→ +$${usd} USD ≈ NT$${usd*USD_NTD}`, 'payout');
-      } else {
-        addLog(`🎉 ${node.name} 完成 5000/5000 歸零！→ +$${usd} USD。解鎖「再加入」資格。`, 'flush');
-        // schedule flush
-        const nid = node.id;
+function reset() {
+  G = mkState();
+  render();
+  updateHint();
+}
+
+// ── TIER CHECK ─────────────────────────────────
+function checkTiers() {
+  const min = Math.min(G.lPts, G.rPts);
+  TIERS.forEach((t, i) => {
+    if (!G.tiers[i] && min >= t.pts) {
+      G.tiers[i] = true;
+      G.totalNTD += t.ntd;
+      G.log.unshift({ week: G.week, tier: i, ntd: t.ntd, emoji: t.emoji, label: t.label });
+      celebrate(t.emoji, t.ntd, t.label);
+      if (t.flush) {
         setTimeout(() => {
-          const n = find(nid);
-          if (n) { n.bvL = 0; n.bvR = 0; n.tiers = [false,false,false,false]; }
-          addLog(`🔄 ${find(nid)?.name || 'BDC'} 銀行歸零，進入下一輪累積。`, 'info');
+          G.lPts = 0; G.rPts = 0;
+          G.tiers = [false,false,false,false];
           render();
-        }, 900);
+        }, 1400);
       }
-      pulseNode(node.id);
     }
+  });
+}
+
+// ── CELEBRATE ──────────────────────────────────
+let celTimer;
+function celebrate(emoji, ntd, label) {
+  clearTimeout(celTimer);
+  document.getElementById('cel-emoji').textContent = emoji;
+  document.getElementById('cel-ntd').textContent   = '+NT$' + ntd.toLocaleString();
+  document.getElementById('cel-lbl').textContent   = label;
+  const el = document.getElementById('celebrate');
+  el.classList.add('show');
+  celTimer = setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+// ── RENDER ─────────────────────────────────────
+function render() {
+  // Stats bar
+  document.getElementById('s-week').textContent = G.week;
+  document.getElementById('s-earn').textContent = 'NT$' + G.totalNTD.toLocaleString();
+  document.getElementById('s-ppl').textContent  = (G.lPpl + G.rPpl) + ' 人';
+
+  // People
+  renderPeople('left-ppl',  G.lPpl);
+  renderPeople('right-ppl', G.rPpl);
+
+  // Tanks
+  renderTank('left-water',  'left-pts',  G.lPts);
+  renderTank('right-water', 'right-pts', G.rPts);
+  renderTankMarks('left-tank',  G.tiers);
+  renderTankMarks('right-tank', G.tiers);
+
+  // Tier badges
+  renderBadges('left-badges');
+  renderBadges('right-badges');
+
+  // Next target
+  const next = TIERS.find((t, i) => !G.tiers[i]);
+  if (next) {
+    document.getElementById('c-target').textContent = next.pts.toLocaleString();
+    document.getElementById('c-reward').textContent = '+NT$' + next.ntd.toLocaleString();
+  } else {
+    document.getElementById('c-target').textContent = '—';
+    document.getElementById('c-reward').textContent = '本輪完成！';
   }
+
+  // Log
+  renderLog();
 }
 
-// ═══════════════════════════════════════════════
-// MANUAL ADD
-// ═══════════════════════════════════════════════
-function addManual() {
-  const id   = S.selectedId;
-  const amt  = parseInt(document.getElementById('bv-amt').value) || 0;
-  const side = document.getElementById('bv-side').value;
-  if (!id || amt <= 0) return;
-  addLog(`手動：${find(id)?.name} ${side === 'left' ? '左' : '右'}邊 +${amt} BV`, 'info');
-  addBV(id, amt, side);
+function renderPeople(elId, count) {
+  const el = document.getElementById(elId);
+  el.innerHTML = Array.from({ length: count }, (_, i) =>
+    `<span class="person">${PEOPLE_EMOJI[i % PEOPLE_EMOJI.length]}</span>`
+  ).join('');
 }
 
-// ═══════════════════════════════════════════════
-// ADD CHILD NODE
-// ═══════════════════════════════════════════════
-function addChild(side) {
-  const pid = S.selectedId;
-  if (!pid) { addLog('⚠ 請先點選一個節點', 'warning'); return; }
-  const parent = find(pid);
-  const exists = S.nodes.find(n => n.parentId === pid && n.pos === side);
-  if (exists) {
-    addLog(`⚠ ${parent.name} 的${side === 'left' ? '左' : '右'}邊已有夥伴 (${exists.name})。依制度規定，新夥伴須安置在更深處。`, 'warning');
+function renderTank(waterId, ptsId, pts) {
+  const pct = Math.min(pts / MAX_PTS * 100, 100);
+  document.getElementById(waterId).style.height = pct + '%';
+  document.getElementById(ptsId).textContent = pts.toLocaleString();
+  // switch text color based on fill
+  const valEl = document.getElementById(ptsId);
+  valEl.classList.toggle('light', pct < 30);
+}
+
+let marksDrawn = { 'left-tank': false, 'right-tank': false };
+function renderTankMarks(tankId, tiers) {
+  if (marksDrawn[tankId]) {
+    // just update paid state
+    const tank = document.getElementById(tankId);
+    tank.querySelectorAll('.t-mark').forEach((m, i) => {
+      m.classList.toggle('paid', tiers[i]);
+    });
     return;
   }
-  S.partnerIdx++;
-  const names = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P'];
-  const rawName = document.getElementById('new-name').value.trim();
-  const name = rawName || ('夥伴 ' + (names[S.partnerIdx - 1] || S.partnerIdx));
-  const node = mkNode(name, pid, side, false);
-  S.nodes.push(node);
-  document.getElementById('new-name').value = '';
-  addLog(`新夥伴「${name}」安置在 ${parent.name} 的${side === 'left' ? '左' : '右'}邊（未啟動，需達 200 PBV）`, 'info');
-  render();
-}
-
-// ═══════════════════════════════════════════════
-// SIMULATE WEEK
-// ═══════════════════════════════════════════════
-function simWeek() {
-  // Prompt user for weekly BV per side
-  const bv = parseInt(prompt('本週每邊預計業績 (BV)？\n（模擬整個組織本週的業績流入）', '400')) || 0;
-  if (bv <= 0) return;
-  const root = S.nodes.find(n => n.parentId === null);
-  if (!root) return;
-  addLog(`▶ 模擬本週：左右各 +${bv} BV`, 'info');
-  addBV(root.id, bv, 'left');
-  addBV(root.id, bv, 'right');
-}
-
-// ═══════════════════════════════════════════════
-// SCENARIOS
-// ═══════════════════════════════════════════════
-function runScenario(name) {
-  resetSim();
-  setTimeout(() => {
-    if      (name === 'synergy') _scenSynergy();
-    else if (name === 'annuity') _scenAnnuity();
-    else if (name === 'ulo')     _scenULO();
-  }, 100);
-}
-
-function _scenSynergy() {
-  addLog('=== 劇本①：命運共同體 ===', 'info');
-  // Add partner A under 002 (left)
-  const n002 = S.nodes.find(n => n.pos === 'left');
-  n002.qualified = true;
-  n002.pbv = 200;
-  addLog('▸ BDC-002 代表你的強力夥伴 A，資格已啟動', 'qualify');
-  addLog('▸ A 的組織本月產生 3,000 BV，100% 流入你的左邊銀行', 'info');
-  setTimeout(() => {
-    addBV(n002.id, 1500, 'left');
-    addBV(n002.id, 1500, 'right');
-    addLog('▸ 觀察：BDC-001 左邊銀行累積了 3,000 BV', 'info');
-    addLog('▸ 你只需專注開發右邊，就能觸發第一階佣金', 'info');
-    addLog('▸ A 永遠不會「脫離」——他的業績永遠在你的銀行裡等你', 'info');
-  }, 300);
-}
-
-function _scenAnnuity() {
-  addLog('=== 劇本②：購物年金複利 ===', 'info');
-  addLog('▸ 設定：左右各 3 位夥伴，每人每月消費 500 BV', 'info');
-  const root = S.nodes.find(n => n.parentId === null);
-  const n002 = S.nodes.find(n => n.pos === 'left');
-  const n003 = S.nodes.find(n => n.pos === 'right');
-  [root, n002, n003].forEach(n => { n.qualified = true; n.pbv = 200; });
-  setTimeout(() => {
-    // 3 people on each side × 500 BV = 1500 per side
-    addBV(n002.id, 500, 'left');
-    addBV(n002.id, 500, 'left');
-    addBV(n002.id, 500, 'left');
-    addBV(n003.id, 500, 'right');
-    addBV(n003.id, 500, 'right');
-    addBV(n003.id, 500, 'right');
-    addLog('▸ 月底結算：左 1,500 / 右 1,500 BV → 觸發第一階 +$300！', 'payout');
-    addLog('▸ 下個月繼續，累積至 2,400 / 2,400 → 再 +$300', 'info');
-    addLog('▸ 不需要招募，只靠轉移消費就能產生被動收入', 'info');
-  }, 300);
-}
-
-function _scenULO() {
-  addLog('=== 劇本③：ULO 創作者模式 ===', 'info');
-  addLog('▸ 假設：10,000 粉絲，1% 轉化，人均 30 BV → 月產 3,000 BV', 'info');
-  const root = S.nodes.find(n => n.parentId === null);
-  const n002 = S.nodes.find(n => n.pos === 'left');
-  const n003 = S.nodes.find(n => n.pos === 'right');
-  [root, n002, n003].forEach(n => { n.qualified = true; n.pbv = 200; });
-  setTimeout(() => {
-    // ULO: BV rotates between left and right
-    addBV(n002.id, 1500, 'left');
-    addBV(n003.id, 1500, 'right');
-    addLog('▸ 3,000 BV 輪播至左右兩側（BDC-002 / 003）', 'info');
-    addLog('▸ ULO 不需招募下線，靠粉絲零售自動累積', 'info');
-    addLog('▸ 達到 1,200/1,200 → 觸發佣金，粉絲量即收入來源', 'info');
-  }, 300);
-}
-
-// ═══════════════════════════════════════════════
-// LOG
-// ═══════════════════════════════════════════════
-function addLog(text, type = 'info') {
-  S.log.unshift({ text, type });
-  if (S.log.length > 60) S.log.pop();
-  renderLog();
-}
-
-// ═══════════════════════════════════════════════
-// TREE LAYOUT
-// ═══════════════════════════════════════════════
-function layout() {
-  const pos = {};
-  const root = S.nodes.find(n => n.parentId === null);
-  if (!root) return pos;
-
-  function leafCount(id) {
-    const lc = S.nodes.find(n => n.parentId === id && n.pos === 'left');
-    const rc = S.nodes.find(n => n.parentId === id && n.pos === 'right');
-    if (!lc && !rc) return 1;
-    return (lc ? leafCount(lc.id) : 0.5) + (rc ? leafCount(rc.id) : 0.5);
-  }
-
-  const svgEl = document.getElementById('tree-svg');
-  const W = svgEl.parentElement?.clientWidth || 600;
-
-  function place(id, xl, xr, depth) {
-    const lc = S.nodes.find(n => n.parentId === id && n.pos === 'left');
-    const rc = S.nodes.find(n => n.parentId === id && n.pos === 'right');
-    let cx;
-    if (!lc && !rc) {
-      cx = (xl + xr) / 2;
-    } else {
-      const lw = lc ? leafCount(lc.id) : 0.5;
-      const rw = rc ? leafCount(rc.id) : 0.5;
-      const mid = xl + (xr - xl) * lw / (lw + rw);
-      if (lc) place(lc.id, xl, mid, depth + 1);
-      if (rc) place(rc.id, mid, xr, depth + 1);
-      cx = (xl + xr) / 2;
-    }
-    pos[id] = { x: cx, y: 50 + depth * ROW_H };
-  }
-
-  place(root.id, NODE_R + 8, W - NODE_R - 8, 0);
-
-  const maxY = Math.max(...Object.values(pos).map(p => p.y));
-  svgEl.setAttribute('height', Math.max(300, maxY + 70));
-  svgEl.setAttribute('width', W);
-  return pos;
-}
-
-// ═══════════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════════
-function render() {
-  renderTree();
-  renderDetail();
-  renderLog();
-}
-
-function renderTree() {
-  const pos = layout();
-  const eG = document.getElementById('g-edges');
-  const nG = document.getElementById('g-nodes');
-  eG.innerHTML = ''; nG.innerHTML = '';
-
-  const svg = 'http://www.w3.org/2000/svg';
-
-  // edges
-  S.nodes.forEach(n => {
-    if (n.parentId == null) return;
-    const p = pos[n.parentId], c = pos[n.id];
-    if (!p || !c) return;
-
-    const line = document.createElementNS(svg, 'line');
-    line.setAttribute('x1', p.x); line.setAttribute('y1', p.y + NODE_R);
-    line.setAttribute('x2', c.x); line.setAttribute('y2', c.y - NODE_R);
-    line.setAttribute('class', 'e-line');
-    eG.appendChild(line);
-
-    const mx = (p.x + c.x) / 2 + (n.pos === 'left' ? -9 : 9);
-    const my = (p.y + NODE_R + c.y - NODE_R) / 2;
-    const lbl = document.createElementNS(svg, 'text');
-    lbl.setAttribute('x', mx); lbl.setAttribute('y', my);
-    lbl.setAttribute('class', 'e-lbl');
-    lbl.setAttribute('text-anchor', n.pos === 'left' ? 'end' : 'start');
-    lbl.textContent = n.pos === 'left' ? '左' : '右';
-    eG.appendChild(lbl);
-  });
-
-  // nodes
-  S.nodes.forEach(n => {
-    const p = pos[n.id]; if (!p) return;
-    const g = document.createElementNS(svg, 'g');
-    g.style.cursor = 'pointer';
-    g.addEventListener('click', () => { S.selectedId = n.id; renderDetail(); });
-
-    const c = document.createElementNS(svg, 'circle');
-    c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', NODE_R);
-    let cls = 'n-circle';
-    if (!n.qualified) cls += ' unqualified';
-    else if (n.id === S.selectedId) cls += ' selected qualified';
-    else cls += ' qualified';
-    c.setAttribute('class', cls);
-    c.setAttribute('id', 'nc-' + n.id);
-    g.appendChild(c);
-
-    const t1 = document.createElementNS(svg, 'text');
-    t1.setAttribute('x', p.x); t1.setAttribute('y', p.y - 5);
-    t1.setAttribute('class', 'n-text');
-    t1.textContent = n.name.length > 10 ? n.name.slice(0, 10) : n.name;
-    g.appendChild(t1);
-
-    const bvStr = (n.bvL > 0 || n.bvR > 0) ? `${n.bvL}|${n.bvR}` : (n.qualified ? '✓ 啟動' : '需 200 PBV');
-    const t2 = document.createElementNS(svg, 'text');
-    t2.setAttribute('x', p.x); t2.setAttribute('y', p.y + 13);
-    t2.setAttribute('class', 'n-sub');
-    t2.textContent = bvStr;
-    g.appendChild(t2);
-
-    // tier dots
-    n.tiers.forEach((paid, i) => {
-      if (!paid) return;
-      const d = document.createElementNS(svg, 'circle');
-      d.setAttribute('cx', p.x - 15 + i * 10);
-      d.setAttribute('cy', p.y + NODE_R + 8);
-      d.setAttribute('r', 3.5);
-      d.setAttribute('fill', '#c9a84c'); d.setAttribute('opacity', '0.85');
-      g.appendChild(d);
-    });
-
-    nG.appendChild(g);
-  });
-}
-
-function renderDetail() {
-  const n = find(S.selectedId);
-  if (!n) return;
-
-  document.getElementById('d-id').textContent = 'BDC — ' + n.name;
-  document.getElementById('d-name').textContent = `左: ${n.bvL} BV   右: ${n.bvR} BV`;
-
-  const stEl = document.getElementById('d-status');
-  stEl.innerHTML = n.qualified
-    ? `<span class="ok">✓ 資格啟動（PBV: ${n.pbv}）</span>`
-    : `<span class="err">⚠ 未達 200 PBV（目前: ${n.pbv}）</span>`;
-
-  // tanks — scale max 5000
-  const MAX = 5000;
-  const lp = Math.min(n.bvL / MAX * 100, 100);
-  const rp = Math.min(n.bvR / MAX * 100, 100);
-  document.getElementById('tf-l').style.width = lp + '%';
-  document.getElementById('tf-r').style.width = rp + '%';
-  document.getElementById('lv').textContent   = n.bvL;
-  document.getElementById('rv').textContent   = n.bvR;
-  document.getElementById('tv-l').textContent = n.bvL;
-  document.getElementById('tv-r').textContent = n.bvR;
-
-  // add tick marks once
-  ensureTicks('tw-l'); ensureTicks('tw-r');
-
-  // tier status dots
-  const dotEl = document.getElementById('tier-dots');
-  const labels = ['第1階 $300','第2階 $300','第3階 $300','歸零 $600'];
-  dotEl.innerHTML = n.tiers.map((paid, i) =>
-    `<span style="margin-right:8px;opacity:${paid?1:.3}">
-      <span class="${paid ? 'tier-paid-dot' : ''}"></span>${labels[i]}
-    </span>`
-  ).join('');
-
-  document.getElementById('earn-usd').textContent = `$${n.earnings} USD`;
-  document.getElementById('earn-ntd').textContent = `≈ NT$${(n.earnings * USD_NTD).toLocaleString()}`;
-}
-
-let ticksDone = {};
-function ensureTicks(wrapperId) {
-  if (ticksDone[wrapperId]) return;
-  ticksDone[wrapperId] = true;
-  const wrap = document.getElementById(wrapperId);
+  marksDrawn[tankId] = true;
+  const tank = document.getElementById(tankId);
   TIERS.forEach((t, i) => {
-    const pct = (t / 5000 * 100).toFixed(2) + '%';
-    const tick = document.createElement('div');
-    tick.className = 'tick'; tick.style.left = pct; wrap.appendChild(tick);
-
-    const tl = document.createElement('div');
-    tl.className = 'tick-top'; tl.style.left = pct; tl.textContent = t; wrap.appendChild(tl);
-
-    const bl = document.createElement('div');
-    bl.className = 'tick-bot'; bl.style.left = pct; bl.textContent = '+$'+PAYOUTS[i]; wrap.appendChild(bl);
+    const pct = (1 - t.pts / MAX_PTS) * 100; // bottom-up
+    const mark = document.createElement('div');
+    mark.className = 'at-mark t-mark' + (tiers[i] ? ' paid' : '');
+    mark.style.bottom = (t.pts / MAX_PTS * 100) + '%';
+    tank.appendChild(mark);
+    const lbl = document.createElement('div');
+    lbl.className = 't-mark-lbl';
+    lbl.style.bottom = (t.pts / MAX_PTS * 100 + 0.5) + '%';
+    lbl.textContent = t.pts.toLocaleString();
+    tank.appendChild(lbl);
   });
+}
+
+function renderBadges(elId) {
+  const el = document.getElementById(elId);
+  el.innerHTML = TIERS.map((t, i) =>
+    `<span class="badge ${G.tiers[i] ? 'paid' : ''}">${t.emoji}</span>`
+  ).join('');
 }
 
 function renderLog() {
-  const el = document.getElementById('log'); if (!el) return;
-  el.innerHTML = S.log.slice(0, 30).map(e =>
-    `<div class="log-item ${e.type}">${e.text}</div>`
+  const el = document.getElementById('log');
+  if (G.log.length === 0) {
+    el.innerHTML = '<div class="log-empty">還沒有收入，快去招募夥伴吧！</div>';
+    return;
+  }
+  el.innerHTML = G.log.slice(0, 10).map(e =>
+    `<div class="log-item">
+      <span>${e.emoji} 第 ${e.week} 週・${e.label}</span>
+      <span class="amt">+NT$${e.ntd.toLocaleString()}</span>
+    </div>`
   ).join('');
 }
 
-// ═══════════════════════════════════════════════
-// PULSE ANIMATION
-// ═══════════════════════════════════════════════
-function pulseNode(id) {
-  const el = document.getElementById('nc-' + id); if (!el) return;
-  el.classList.add('pulsing');
-  setTimeout(() => el.classList.remove('pulsing'), 2200);
-}
-
-// ═══════════════════════════════════════════════
-// SHOPPING ANNUITY CALC
-// ═══════════════════════════════════════════════
-function calcAnnuity() {
-  const exc  = parseFloat(document.getElementById('a-exc')?.value)  || 0;
-  const bvf  = parseFloat(document.getElementById('a-bvf')?.value)  || 0.6;
-  const par  = parseFloat(document.getElementById('a-par')?.value)  || 0;
-  const ibvf = parseFloat(document.getElementById('a-ibvf')?.value) || 0.05;
-  const lc   = parseInt(document.getElementById('a-lc')?.value)     || 0;
-  const rc   = parseInt(document.getElementById('a-rc')?.value)     || 0;
-
-  const bvPP  = exc * bvf;
-  const ibvPP = par * ibvf;
-
-  const bvL   = bvPP * lc;
-  const bvR   = bvPP * rc;
-  const ibvL  = ibvPP * lc;
-  const ibvR  = ibvPP * rc;
-
-  const minBV  = Math.min(bvL, bvR);
-  const minIBV = Math.min(ibvL, ibvR);
-
-  // Weeks to Tier 1
-  const w2t1BV  = minBV  > 0 ? (1200 / (minBV  / 4)).toFixed(1) : '∞';
-  const w2t1IBV = minIBV > 0 ? (1200 / (minIBV / 4)).toFixed(1) : '∞';
-
-  // Estimated monthly payout
-  function estPay(minMonthly) {
-    const wk = minMonthly / 4;
-    if (wk >= 5000/4) return 1500;
-    if (wk >= 3600/4) return 900;
-    if (wk >= 2400/4) return 600;
-    if (wk >= 1200/4) return 300;
-    return 0;
+// ── DYNAMIC HINT ───────────────────────────────
+function updateHint() {
+  const el = document.getElementById('hint-text');
+  if (G.lPpl === 0 && G.rPpl === 0) {
+    el.innerHTML = '招募夥伴後，每週自動累積業績。<br><strong style="color:var(--gold-lt)">兩邊同時達標才能領收入</strong>——這就是「左右開花」的關鍵。';
+  } else if (G.lPpl > 0 && G.rPpl === 0) {
+    el.innerHTML = '⚠ 只有左邊有人，右邊業績是 0，<strong style="color:var(--red)">無法觸發收入</strong>。記得右邊也要發展！';
+  } else if (G.lPpl === 0 && G.rPpl > 0) {
+    el.innerHTML = '⚠ 只有右邊有人，左邊業績是 0，<strong style="color:var(--red)">無法觸發收入</strong>。記得左邊也要發展！';
+  } else {
+    const ratio = Math.min(G.lPpl, G.rPpl) / Math.max(G.lPpl, G.rPpl);
+    if (ratio < 0.5) {
+      el.innerHTML = '💡 兩邊人數差距太大，<strong style="color:var(--gold-lt)">業績會卡在慢的那側</strong>。建議平衡發展！';
+    } else {
+      el.innerHTML = '✅ 兩邊都有人，業績每週穩定累積。<strong style="color:var(--green)">按「下一週」看看會發生什麼！</strong>';
+    }
   }
-
-  const payBV  = estPay(minBV);
-  const payIBV = estPay(minIBV);
-  const total  = payBV + payIBV;
-
-  // How many people needed for Tier 1?
-  const need = bvPP > 0 ? Math.ceil(1200 / (bvPP / 4)) : 0;
-
-  const el = document.getElementById('annuity-results');
-  if (!el) return;
-
-  el.innerHTML = `
-    <div class="res-row"><span class="res-k">每人月 BV 產出</span><span class="res-v">${bvPP.toFixed(0)} BV</span></div>
-    <div class="res-row"><span class="res-k">每人月 IBV 產出</span><span class="res-v">${ibvPP.toFixed(1)} IBV</span></div>
-    <div class="res-row"><span class="res-k">左邊月 BV / 右邊月 BV</span><span class="res-v">${bvL.toFixed(0)} / ${bvR.toFixed(0)}</span></div>
-    <div class="res-row"><span class="res-k">觸發第一階 BV 需要週數</span><span class="res-v ${parseFloat(w2t1BV)<=4?'good':''}">${w2t1BV} 週</span></div>
-    <div class="res-row"><span class="res-k">左右各需最少人數（每週觸發第1階）</span><span class="res-v ${need>0&&need<=lc&&need<=rc?'good':'warn'}">${need > 0 ? need + ' 人/側' : '—'}</span></div>
-    <div class="res-row"><span class="res-k">預估月佣金（BV 通路）</span><span class="res-v ${payBV>0?'good':'warn'}">${payBV>0?'$'+payBV+' USD':'尚未達標'}</span></div>
-    <div class="res-row"><span class="res-k">預估月佣金（IBV 通路）</span><span class="res-v ${payIBV>0?'good':'warn'}">${payIBV>0?'$'+payIBV+' USD':'尚未達標'}</span></div>
-    <div class="res-row" style="border-top:1px solid var(--gold);padding-top:.75rem">
-      <span class="res-k" style="color:var(--text);font-weight:600">合計預估月被動收入</span>
-      <span class="res-v big">$${total} USD ≈ NT$${(total*USD_NTD).toLocaleString()}</span>
-    </div>
-    <p style="margin-top:.75rem;font-size:.7rem;color:var(--muted);line-height:1.6">
-      以上為理論模擬值，實際收入依個人及組織活躍度而異。台灣市場需符合公平交易委員會規定，每季提交 Form 1000 確認零售銷售。
-    </p>
-  `;
 }
 
-// ═══════════════════════════════════════════════
-// TAB SWITCHING
-// ═══════════════════════════════════════════════
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.sim-main').forEach(d => d.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-    if (btn.dataset.tab === 'annuity') calcAnnuity();
-  });
-});
-
-// Re-layout on resize
-window.addEventListener('resize', render);
-
-// ═══════════════════════════════════════════════
-// START
-// ═══════════════════════════════════════════════
-window.addEventListener('load', initSim);
+// ── INIT ───────────────────────────────────────
+G = mkState();
+render();
 </script>
 </body>
 </html>
